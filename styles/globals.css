@@ -1,16 +1,125 @@
-html,
-body {
-  padding: 0;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+:root {
+	/* Primary */
+	--pri-dark: #112046;
+	--pri-medium: #112046;
+	--pri-main: #009ece;
+	--pri-light: #c2ecf9;
+
+	/* Secondary */
+	--sec-dark: #641c28;
+	--sec-medium: #a90101;
+	--sec-main: #d42222;
+	--sec-light: #ffcfd7;
+
+	/* System */
+	--success-dark: #0d5f00;
+	--success-main: #4cc758;
+	--success-light: #e9f5ea;
+
+	--warning-dark: #855000;
+	--warning-main: #ffb546;
+	--warning-light: #fff4d7;
+
+	--danger-dark: #6f0000;
+	--danger-main: #f01515;
+	--danger-light: #ffe0e0;
+
+	/* Grayscale */
+	--gs-black: #000000;
+	--gs-dark: #424a4d;
+	--gs-gray: #99a7ac;
+	--gs-light: #d0dbdf;
+	--gs-soft: #f1f6f8;
+	--gs-white: #ffffff;
+
+	/* RSBS */
+	--rsbs-ml: calc((100vw - 720px) / 2);
+	--rsbs-mr: calc((100vw - 720px) / 2);
+	--rsbs-handle-bg: "none";
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+@media (max-width: 720px) {
+	:root {
+		--rsbs-ml: auto;
+		--rsbs-mr: auto;
+	}
+}
+
+html,
+body {
+	padding: 0;
+	margin: 0;
+	font-family: "Open Sans", sans-serif;
 }
 
 * {
-  box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+*::-webkit-scrollbar {
+	opacity: 0;
+	height: 0;
+}
+
+/* --- FONTS --- */
+/* Normal */
+.--f-normal-bold {
+	font-weight: bold;
+	font-size: 16px;
+}
+
+.--f-normal-semibold {
+	font-weight: 600;
+	font-size: 16px;
+}
+
+.--f-normal-regular {
+	font-weight: normal;
+	font-size: 16px;
+}
+
+/* Semi Small */
+.--f-semismall-bold {
+	font-weight: bold;
+	font-size: 14px;
+}
+
+.--f-semismall-semibold {
+	font-weight: 600;
+	font-size: 14px;
+}
+
+.--f-semismall-regular {
+	font-weight: normal;
+	font-size: 14px;
+}
+
+/* Small */
+.--f-small-bold {
+	font-weight: bold;
+	font-size: 12px;
+}
+
+.--f-small-semibold {
+	font-weight: 600;
+	font-size: 12px;
+}
+
+.--f-small-regular {
+	font-weight: normal;
+	font-size: 12px;
+}
+
+/* Tiny */
+.--f-tiny-bold {
+	font-weight: bold;
+	font-size: 10px;
+}
+.--f-tiny-semibold {
+	font-weight: 600;
+	font-size: 10px;
+}
+.--f-tiny-regular {
+	font-weight: normal;
+	font-size: 10px;
 }
