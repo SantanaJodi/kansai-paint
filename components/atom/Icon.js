@@ -13,19 +13,19 @@ import WhatsApp from "../../public/icon/WhatsApp.svg";
 import X from "../../public/icon/X.svg";
 
 const customIcon = (fill, size) => ({
-	add: <Add fill={fill} size={size} width={size} />,
-	arrow_back: <ArrowBack fill={fill} size={size} width={size} />,
-	box_open: <BoxOpen fill={fill} size={size} width={size} />,
-	check: <Check fill={fill} size={size} width={size} />,
-	gift: <Gift fill={fill} size={size} width={size} />,
-	info: <Info fill={fill} size={size} width={size} />,
-	paper_plane: <PaperPlane fill={fill} size={size} width={size} />,
-	phone: <Phone fill={fill} size={size} width={size} />,
-	scratch: <Scratch fill={fill} size={size} width={size} />,
-	ticket: <Ticket fill={fill} size={size} width={size} />,
-	trash: <Trash fill={fill} size={size} width={size} />,
-	whatsapp: <WhatsApp fill={fill} size={size} width={size} />,
-	x: <X fill={fill} size={size} width={size} />,
+	add: <Add fill={fill} height={size} width={size} />,
+	arrow_back: <ArrowBack fill={fill} height={size} width={size} />,
+	box_open: <BoxOpen fill={fill} height={size} width={size} />,
+	check: <Check fill={fill} height={size} width={size} />,
+	gift: <Gift fill={fill} height={size} width={size} />,
+	info: <Info fill={fill} height={size} width={size} />,
+	paper_plane: <PaperPlane fill={fill} height={size} width={size} />,
+	phone: <Phone fill={fill} height={size} width={size} />,
+	scratch: <Scratch fill={fill} height={size} width={size} />,
+	ticket: <Ticket fill={fill} height={size} width={size} />,
+	trash: <Trash fill={fill} height={size} width={size} />,
+	whatsapp: <WhatsApp fill={fill} height={size} width={size} />,
+	x: <X fill={fill} height={size} width={size} />,
 });
 
 export default function Icon({fill, size, icon, style, onClick, className}) {

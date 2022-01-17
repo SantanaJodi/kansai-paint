@@ -19,19 +19,20 @@ export function HtmlPage({title, desc, children}) {
 	return (
 		<>
 			<HtmlHead title={title} desc={desc} />
-			<main
-				style={{minHeight: "100vh"}}
+			<div
 				className="d-flex justify-content-center"
+				style={{minHeight: "100vh"}}
 			>
 				<div
 					style={{
 						maxWidth: 720,
 						width: 720,
+						position: "relative",
 					}}
 				>
 					{children}
 				</div>
-			</main>
+			</div>
 		</>
 	);
 }

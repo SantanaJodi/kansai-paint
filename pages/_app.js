@@ -5,7 +5,7 @@ import {GlobalState} from "../components/atom/Context";
 function MyApp({Component, pageProps}) {
 	return (
 		<GlobalState>
-			<Component {...pageProps} />;
+			<Component {...pageProps} />
 		</GlobalState>
 	);
 }

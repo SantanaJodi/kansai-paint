@@ -59,6 +59,14 @@ body {
 *::-webkit-scrollbar {
 	opacity: 0;
 	height: 0;
+	display: none;
+}
+
+/* --- SCREEN --- */
+.--fixed-full-width {
+	position: fixed;
+	width: 100%;
+	max-width: 720px;
 }
 
 /* --- FONTS --- */
