@@ -52,7 +52,7 @@ export default function Button({
 	}, [type, disabled]);
 
 	return (
-		<Ripples>
+		<Ripples className={className}>
 			<button
 				style={{
 					cursor: "pointer",
@@ -61,9 +61,10 @@ export default function Button({
 					borderRadius: 4,
 					...style,
 				}}
-				className={`py-2 px-3 d-flex align-items-center ${className}`}
+				className={`py-2 px-3 d-flex align-items-center justify-content-center w-100`}
 				onClick={onClick}
 				disabled={disabled}
+				tabIndex={-1}
 			>
 				{icon && (
 					<Icon
