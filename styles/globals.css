@@ -131,3 +131,14 @@ body {
 	font-weight: normal;
 	font-size: 10px;
 }
+
+/* --- HEADER --- */
+.--header-bs {
+	position: fixed;
+	width: 100%;
+	max-width: 720px;
+	top: 0px;
+	border-bottom: 1px solid var(--gs-soft);
+	background-color: var(--gs-white);
+	border-radius: 4px;
+}
