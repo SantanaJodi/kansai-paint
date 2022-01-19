@@ -11,6 +11,7 @@ import Ticket from "../../public/icon/Ticket.svg";
 import Trash from "../../public/icon/Trash.svg";
 import WhatsApp from "../../public/icon/WhatsApp.svg";
 import X from "../../public/icon/X.svg";
+import {pri, sec} from "./Color";
 
 const customIcon = (fill, size) => ({
 	add: <Add fill={fill} height={size} width={size} />,
@@ -36,6 +37,15 @@ export default function Icon({fill, size, icon, style, onClick, className}) {
 			onClick={onClick}
 		>
 			{customIcon(fill, size)[icon]}
+		</span>
+	);
+}
+
+export function GoShock({className}) {
+	return (
+		<span className={className}>
+			<span style={{color: pri.main}}>GO</span>
+			<span style={{color: sec.main}}>SHOCK</span>
 		</span>
 	);
 }

@@ -25,12 +25,14 @@ export function BottomsheetUploadReceiptAndItem({open, onDismiss}) {
 		setReceiptImage(null);
 		setItemImage(null);
 		setIsUploading(false);
+		setUploadProgress(0);
 	};
 
 	const handleUploadPhotos = () => {
+		// Change with API
 		setIsUploading(true);
+		setUploadProgress(0);
 
-		// Progress percentage, change with API
 		for (let i = 0; i <= 100; i++) {
 			setTimeout(() => {
 				setUploadProgress(i);
@@ -39,22 +41,24 @@ export function BottomsheetUploadReceiptAndItem({open, onDismiss}) {
 	};
 
 	const handleCancelUpload = () => {
-		setUploadProgress(0);
 		setIsUploading(false);
+		setUploadProgress(0);
 	};
 
+	// Change with API
 	useEffect(() => {
-		// Change with API
 		if (isUploading && uploadProgress === 100) {
 			const images = state.images || [];
 			images.push({
+				timestamp: Date.now(),
+				status: "on_process",
 				receipt: receiptImage,
 				item: itemImage,
 			});
 
 			setState((prev) => ({
 				...prev,
-				images,
+				images: images?.reverse(),
 			}));
 
 			// Normalize
@@ -62,7 +66,17 @@ export function BottomsheetUploadReceiptAndItem({open, onDismiss}) {
 			onDismiss();
 			push("/upload-struk?s=true");
 		}
-	}, [uploadProgress]);
+	}, [
+		isUploading,
+		uploadProgress,
+		receiptImage,
+		itemImage,
+		clearState,
+		onDismiss,
+		push,
+		setState,
+		state.images,
+	]);
 
 	return (
 		<BottomSheet
@@ -84,13 +98,13 @@ export function BottomsheetUploadReceiptAndItem({open, onDismiss}) {
 					className="w-100"
 					title="Upload Foto Struk"
 					onChange={(blob) => setReceiptImage(blob)}
-					image={receiptImage}
+					image={receiptImage?.url}
 				/>
 				<InputUploadPhoto
 					className="w-100"
 					title="Upload Foto Barang"
 					onChange={(blob) => setItemImage(blob)}
-					image={itemImage}
+					image={itemImage?.url}
 				/>
 			</div>
 

@@ -36,6 +36,7 @@ export function InputUploadPhoto({title, className, onChange, image}) {
 						height="100%"
 						width="100%"
 						style={{objectFit: "cover"}}
+						alt="Receipt and item"
 					/>
 				)}
 
@@ -45,8 +46,12 @@ export function InputUploadPhoto({title, className, onChange, image}) {
 					accept="image/png, image/jpeg, image/jpg"
 					style={{display: "none"}}
 					onInput={(e) => {
-						const files = e.target.files[0];
-						files && onChange(URL.createObjectURL(files));
+						const file = e.target.files[0];
+						file &&
+							onChange({
+								url: URL.createObjectURL(file),
+								name: file.name,
+							});
 					}}
 				/>
 			</label>

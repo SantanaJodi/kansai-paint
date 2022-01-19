@@ -7,7 +7,7 @@ export function HeaderMain({color}) {
 			{/* Header */}
 			<header
 				className="--fixed-full-width d-flex justify-content-center"
-				style={{padding: 16, backgroundColor: gs.white}}
+				style={{padding: 16, backgroundColor: gs.white, zIndex: 1}}
 			>
 				<img
 					src={`/image/logo/${color}.png`}

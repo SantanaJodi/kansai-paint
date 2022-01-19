@@ -9,6 +9,7 @@ export function FooterImage({size}) {
 				bottom: 0,
 				left: 0,
 				maxWidth: 720,
+				zIndex: -1,
 			}}
 			alt="Footer Image"
 		/>
