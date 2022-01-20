@@ -21,8 +21,6 @@ export default function UploadStruk() {
 
 	const [uploadBS, setUploadBS] = useState(false);
 
-	console.log(images);
-
 	return (
 		<HtmlPage
 			title="Upload Struk | Kansai Paint"
@@ -41,7 +39,7 @@ export default function UploadStruk() {
 			/>
 
 			{/* Main */}
-			<HeaderMain color="black" />
+			<HeaderMain logo="black" />
 
 			<BoxUpload className="m-3" onClick={() => setUploadBS(true)} />
 

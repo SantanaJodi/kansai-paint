@@ -1,16 +1,20 @@
-import {gs} from "../atom/Color";
+import {gs, pri} from "../atom/Color";
 import Icon from "../atom/Icon";
 
-export function HeaderMain({color}) {
+export function HeaderMain({logo}) {
 	return (
 		<>
 			{/* Header */}
 			<header
 				className="--fixed-full-width d-flex justify-content-center"
-				style={{padding: 16, backgroundColor: gs.white, zIndex: 1}}
+				style={{
+					padding: 16,
+					backgroundColor: logo === "white" ? pri.dark : gs.white,
+					zIndex: 1,
+				}}
 			>
 				<img
-					src={`/image/logo/${color}.png`}
+					src={`/image/logo/${logo}.png`}
 					height={40}
 					width="auto"
 					alt="Kansai Logo"

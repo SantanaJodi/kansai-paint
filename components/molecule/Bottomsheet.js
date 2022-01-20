@@ -1,5 +1,5 @@
 import {useRouter} from "next/router";
-import {useContext, useEffect, useState} from "react";
+import {useCallback, useContext, useEffect, useState} from "react";
 import {BottomSheet} from "react-spring-bottom-sheet";
 import "react-spring-bottom-sheet/dist/style.css";
 import Button from "../atom/Button";
@@ -21,12 +21,12 @@ export function BottomsheetUploadReceiptAndItem({open, onDismiss}) {
 	const [isUploading, setIsUploading] = useState(false);
 	const [uploadProgress, setUploadProgress] = useState(0);
 
-	const clearState = () => {
+	const clearState = useCallback(() => {
 		setReceiptImage(null);
 		setItemImage(null);
 		setIsUploading(false);
 		setUploadProgress(0);
-	};
+	}, []);
 
 	const handleUploadPhotos = () => {
 		// Change with API
