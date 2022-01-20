@@ -2,6 +2,7 @@ import {useState} from "react";
 import {gs, warning} from "../../components/atom/Color";
 import {HtmlPage} from "../../components/atom/HtmlPage";
 import Icon, {GoShock} from "../../components/atom/Icon";
+import {BoxCouponCard} from "../../components/molecule/Box";
 import {FooterImage} from "../../components/molecule/Footer";
 import {HeaderMain} from "../../components/molecule/Header";
 
@@ -54,38 +55,7 @@ export default function GoShockPage() {
 				</p>
 			</div>
 
-			{/* Coupon Card */}
-			<div className="d-flex justify-content-center">
-				<div
-					className="position-relative text-center"
-					style={{
-						width: "calc(100% - 32px)",
-						maxWidth: 328,
-					}}
-				>
-					<div
-						style={{
-							width: "68%",
-							height: "100%",
-							position: "absolute",
-							right: 0,
-						}}
-						className="d-flex align-items-center p-2 pe-3"
-					>
-						<img
-							alt="Kansai GOSHOCK Ticker"
-							src="/image/pixel/Scratch Gift.png"
-							width="100%"
-						/>
-					</div>
-
-					<img
-						alt="Kansai GOSHOCK Ticker"
-						src="/image/vector/Ticket.svg"
-						style={{width: "100%", maxWidth: 328}}
-					/>
-				</div>
-			</div>
+			<BoxCouponCard />
 
 			<FooterImage size="big" />
 		</HtmlPage>
