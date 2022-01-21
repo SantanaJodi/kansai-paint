@@ -5,9 +5,16 @@ import Icon, {GoShock} from "../../components/atom/Icon";
 import {BoxCouponCard} from "../../components/molecule/Box";
 import {FooterImage} from "../../components/molecule/Footer";
 import {HeaderMain} from "../../components/molecule/Header";
+import {ModalPhysicalPrize} from "../../components/molecule/Modal";
 
 export default function GoShockPage() {
-	const [count, setCount] = useState(2);
+	const [chance, setChance] = useState(2);
+	const [physicalPrize, setPhysicalPrize] = useState(false);
+	const [digitalPrize, setDigitalPrize] = useState(false);
+
+	const handleSendPhysicalPrize = () => {
+		setPhysicalPrize(false);
+	};
 
 	return (
 		<HtmlPage
@@ -15,6 +22,14 @@ export default function GoShockPage() {
 			desc="Gosok kuponnya dan menangkan berbagai macam hadiah menarik"
 			isBlack
 		>
+			{/* Modal */}
+			<ModalPhysicalPrize
+				open={physicalPrize}
+				onClose={() => setPhysicalPrize(false)}
+				prizeName="iPhone 13"
+				onSend={handleSendPhysicalPrize}
+			/>
+
 			{/* Main */}
 			<HeaderMain logo="white" />
 
@@ -42,7 +57,7 @@ export default function GoShockPage() {
 						}}
 						className="lh-base ms-2"
 					>
-						{count} x
+						{chance} x
 					</p>
 				</div>
 
@@ -55,7 +70,10 @@ export default function GoShockPage() {
 				</p>
 			</div>
 
-			<BoxCouponCard />
+			<BoxCouponCard
+				onClick={() => setPhysicalPrize(true)}
+				reset={physicalPrize}
+			/>
 
 			<FooterImage size="big" />
 		</HtmlPage>

@@ -1,3 +1,4 @@
+import {useState} from "react";
 import Ripples from "react-ripples";
 import {gs, pri} from "./Color";
 import Icon from "./Icon";
@@ -56,5 +57,65 @@ export function InputUploadPhoto({title, className, onChange, image}) {
 				/>
 			</label>
 		</Ripples>
+	);
+}
+
+export function TextArea({
+	label,
+	value,
+	onChange,
+	isRequired,
+	iconStart,
+	placeholder,
+	maxLength,
+	className,
+	style,
+}) {
+	const [focus, setFocus] = useState(false);
+
+	return (
+		<div className={className} style={style}>
+			<label className="d-flex flex-column">
+				{/* Label */}
+				{label && (
+					<p className="--fs-normal-bold mb-2">
+						{label}{" "}
+						{isRequired && (
+							<span style={{color: danger.main}}>*</span>
+						)}
+					</p>
+				)}
+
+				{/* Field */}
+				<div
+					className="p-2 d-flex"
+					style={{
+						borderRadius: 4,
+						backgroundColor: gs.soft,
+						boxShadow: focus
+							? `0px 0px 0px 2px ${pri.main}`
+							: `0px 0px 0px 0px ${pri.main}`,
+						transition: "300ms",
+					}}
+				>
+					<Icon
+						icon={iconStart}
+						fill={gs.gray}
+						size={24}
+						className="me-2"
+					/>
+					<textarea
+						value={value}
+						placeholder={placeholder}
+						onChange={(e) => onChange && onChange(e.target.value)}
+						onFocus={() => setFocus(true)}
+						onBlur={() => setFocus(false)}
+						className="w-100 lh-base"
+						maxLength={maxLength}
+						style={{resize: "none"}}
+					/>
+				</div>
+			</label>
+		</div>
 	);
 }

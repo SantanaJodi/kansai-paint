@@ -52,6 +52,22 @@ body {
 	font-family: "Open Sans", sans-serif;
 }
 
+input,
+textarea {
+	border: none;
+	background-color: transparent;
+}
+
+textarea:focus,
+input:focus {
+	outline: none;
+}
+
+textarea::placeholder,
+input::placeholder {
+	color: var(--gs-gray);
+}
+
 * {
 	box-sizing: border-box;
 }

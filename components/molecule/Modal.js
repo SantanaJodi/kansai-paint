@@ -1,6 +1,8 @@
+import {useState} from "react";
 import Button from "../atom/Button";
-import {gs} from "../atom/Color";
+import {gs, pri} from "../atom/Color";
 import {GoShock} from "../atom/Icon";
+import {TextArea} from "../atom/Input";
 
 function Modal({children, open, onClose, transparentBackground}) {
 	return (
@@ -80,6 +82,55 @@ export function ModalSuccessUpload({open, onClose}) {
 				type="primary"
 				onClick={onClose}
 				className="mt-3 w-100"
+			/>
+		</Modal>
+	);
+}
+
+export function ModalPhysicalPrize({open, onClose, prizeName, onSend}) {
+	const [address, setAddress] = useState("");
+
+	return (
+		<Modal open={open} onClose={() => address && onClose()}>
+			<img
+				alt="Gift Icon"
+				height={64}
+				width={64}
+				src="/image/vector/Gift.svg"
+			/>
+
+			<div className="text-center">
+				<p className="--f-normal-regular lh-base">
+					Selamat Anda Mendapatkan:
+				</p>
+				<p
+					className="--f-normal-bold lh-base"
+					style={{color: pri.main}}
+				>
+					{prizeName}
+				</p>
+			</div>
+
+			<p
+				className="--f-semismall-regular lh-base text-center mt-2"
+				style={{color: gs.gray}}
+			>
+				Isi formulir di bawah ini dengan alamat pengiriman hadiah Anda
+			</p>
+
+			<TextArea
+				placeholder="Masukan alamat Anda..."
+				className="w-100 mt-3"
+				value={address}
+				onChange={(val) => setAddress(val)}
+			/>
+
+			<Button
+				type="primary"
+				title="Kirim"
+				className="mt-3 w-100"
+				onClick={onSend}
+				disabled={!address}
 			/>
 		</Modal>
 	);
