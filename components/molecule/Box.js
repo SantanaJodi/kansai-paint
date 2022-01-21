@@ -124,120 +124,121 @@ export function BoxCouponCard({onClick, reset}) {
 	}, [couponRef, reset]);
 
 	return (
-		<div
-			className="d-flex justify-content-center position-relative text-center"
-			style={{
-				width: "100%",
-			}}
-		>
-			{couponIsLoaded && (
-				<div
-					style={{
-						width: "68%",
-						height: "100%",
-						position: "absolute",
-						right: 0,
-					}}
-					className="d-flex align-items-center p-3"
-				>
-					{/* Goshock area */}
+		<div className="d-flex justify-content-center">
+			<div className="position-relative text-center">
+				{couponIsLoaded && (
 					<div
 						style={{
-							border: `1px dashed ${
-								goshockPercentage === 100
-									? success.main
-									: warning.main
-							}`,
-							width: "100%",
+							width: "68%",
 							height: "100%",
-							borderRadius: 8,
-							backgroundColor: warning.light,
-							position: "relative",
-							cursor: "pointer",
-							zIndex: 0,
+							position: "absolute",
+							right: 0,
 						}}
-						className="d-flex flex-column align-items-center justify-content-center me-4"
-						onClick={() => goshockPercentage === 100 && onClick()}
+						className="d-flex align-items-center py-3"
 					>
-						<animated.img
-							{...bind()}
-							style={{
-								...animStyle,
-								touchAction: "none",
-								display:
-									goshockPercentage !== 100
-										? "block"
-										: "none",
-							}}
-							height={56}
-							width={56}
-							src="/image/pixel/Coin.png"
-						/>
-
-						{goshockPercentage === 0 && (
-							<p className="--f-small-semibold lh-base mt-2 p-2">
-								Gunakan koin di atas untuk mulai menggosok
-							</p>
-						)}
-
-						{goshockPercentage !== 0 && goshockPercentage < 100 && (
-							<p className="--f-small-semibold lh-base mt-2 p-2">
-								Terus gosok! {Math.floor(goshockPercentage)}%
-							</p>
-						)}
-
-						{goshockPercentage === 100 && (
-							<>
-								<div
-									className="d-flex align-items-center"
-									style={{height: 80, overflow: "hidden"}}
-								>
-									<Lottie
-										loop
-										animationData={Kado}
-										play
-										style={{
-											width: 150,
-											height: 150,
-											marginTop: -48,
-										}}
-									/>
-								</div>
-								<p
-									className="--f-small-semibold lh-base"
-									style={{color: success.dark}}
-								>
-									Tap untuk buka hadiahmu
-								</p>
-							</>
-						)}
-
-						{/* Progress background */}
+						{/* Goshock area */}
 						<div
 							style={{
-								height: `100%`,
-								width: `${goshockPercentage}%`,
-								backgroundColor:
+								border: `1px dashed ${
 									goshockPercentage === 100
-										? success.light
-										: gs.white,
-								position: "absolute",
+										? success.main
+										: warning.main
+								}`,
+								width: "100%",
+								height: "100%",
 								borderRadius: 8,
-								zIndex: -1,
-								left: 0,
+								backgroundColor: warning.light,
+								position: "relative",
+								cursor: "pointer",
+								zIndex: 0,
 							}}
-						/>
-					</div>
-				</div>
-			)}
+							className="d-flex flex-column align-items-center justify-content-center me-4"
+							onClick={() =>
+								goshockPercentage === 100 && onClick()
+							}
+						>
+							<animated.img
+								{...bind()}
+								style={{
+									...animStyle,
+									touchAction: "none",
+									display:
+										goshockPercentage !== 100
+											? "block"
+											: "none",
+								}}
+								height={56}
+								width={56}
+								src="/image/pixel/Coin.png"
+							/>
 
-			<img
-				alt="Kansai GOSHOCK Ticket"
-				src="/image/vector/Ticket.svg"
-				style={{width: "100%", maxWidth: 328}}
-				onLoad={() => setCouponIsLoaded(true)} // Need onLoad for the first image render
-				ref={couponRef}
-			/>
+							{goshockPercentage === 0 && (
+								<p className="--f-small-semibold lh-base mt-2 p-2">
+									Gunakan koin di atas untuk mulai menggosok
+								</p>
+							)}
+
+							{goshockPercentage !== 0 &&
+								goshockPercentage < 100 && (
+									<p className="--f-small-semibold lh-base mt-2 p-2">
+										Terus gosok!{" "}
+										{Math.floor(goshockPercentage)}%
+									</p>
+								)}
+
+							{goshockPercentage === 100 && (
+								<>
+									<div
+										className="d-flex align-items-center"
+										style={{height: 80, overflow: "hidden"}}
+									>
+										<Lottie
+											loop
+											animationData={Kado}
+											play
+											style={{
+												width: 150,
+												height: 150,
+												marginTop: -48,
+											}}
+										/>
+									</div>
+									<p
+										className="--f-small-semibold lh-base"
+										style={{color: success.dark}}
+									>
+										Tap untuk buka hadiahmu
+									</p>
+								</>
+							)}
+
+							{/* Progress background */}
+							<div
+								style={{
+									height: `100%`,
+									width: `${goshockPercentage}%`,
+									backgroundColor:
+										goshockPercentage === 100
+											? success.light
+											: gs.white,
+									position: "absolute",
+									borderRadius: 8,
+									zIndex: -1,
+									left: 0,
+								}}
+							/>
+						</div>
+					</div>
+				)}
+
+				<img
+					alt="Kansai GOSHOCK Ticket"
+					src="/image/vector/Ticket.svg"
+					style={{width: "100%", maxWidth: 328}}
+					onLoad={() => setCouponIsLoaded(true)} // Need onLoad for the first image render
+					ref={couponRef}
+				/>
+			</div>
 		</div>
 	);
 }

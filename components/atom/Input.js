@@ -60,6 +60,70 @@ export function InputUploadPhoto({title, className, onChange, image}) {
 	);
 }
 
+export function Input({
+	label,
+	type,
+	value,
+	onChange,
+	isRequired,
+	iconStart,
+	placeholder,
+	maxLength,
+	pattern,
+	inputMode,
+	...rest
+}) {
+	const [focus, setFocus] = useState(false);
+
+	return (
+		<div {...rest}>
+			<label className="d-flex flex-column">
+				{/* Label */}
+				{label && (
+					<p className="--fs-normal-bold mb-2">
+						{label}{" "}
+						{isRequired && (
+							<span style={{color: danger.main}}>*</span>
+						)}
+					</p>
+				)}
+
+				{/* Field */}
+				<div
+					className="p-2 d-flex"
+					style={{
+						borderRadius: 8,
+						backgroundColor: gs.soft,
+						boxShadow: focus
+							? `0px 0px 0px 2px ${pri.main}`
+							: `0px 0px 0px 0px ${pri.main}`,
+						transition: "300ms",
+					}}
+				>
+					<Icon
+						icon={iconStart}
+						fill={gs.gray}
+						size={24}
+						className="me-2"
+					/>
+					<input
+						type={type}
+						value={value}
+						placeholder={placeholder}
+						onChange={(e) => onChange && onChange(e.target.value)}
+						onFocus={() => setFocus(true)}
+						onBlur={() => setFocus(false)}
+						className="w-100"
+						maxLength={maxLength}
+						pattern={pattern}
+						inputMode={inputMode}
+					/>
+				</div>
+			</label>
+		</div>
+	);
+}
+
 export function TextArea({
 	label,
 	value,
