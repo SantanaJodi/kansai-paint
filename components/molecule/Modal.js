@@ -177,7 +177,9 @@ export function ModalDigitalPrize({open, prizeName, onSend}) {
 				type="text"
 				pattern="[0-9]*"
 				inputMode="numeric"
-				onChange={(val) => setNumber(val)}
+				onChange={(val) =>
+					setNumber(parseInt(val.replace(/\.|\D/g, "")) || 0)
+				}
 			/>
 
 			<Button

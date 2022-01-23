@@ -94,13 +94,13 @@ export function BoxCouponCard({onClick, reset}) {
 	const [{x, y}, api] = useSpring(() => ({x: 0, y: 0}));
 
 	const bind = useDrag(
-		({dragging, offset: [ox, oy]}) => {
+		({down, dragging, offset: [ox, oy]}) => {
 			api.start({
 				x: ox,
 				y: oy,
-				immediate: dragging,
+				immediate: down,
 			});
-			dragging &&
+			down &&
 				setAnimStyle((prev) => ({
 					x,
 					y,
@@ -161,11 +161,11 @@ export function BoxCouponCard({onClick, reset}) {
 								{...bind()}
 								style={{
 									...animStyle,
-									touchAction: "none",
 									display:
 										goshockPercentage !== 100
 											? "block"
 											: "none",
+									touchAction: "none",
 								}}
 								height={56}
 								width={56}

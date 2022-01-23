@@ -12,12 +12,13 @@ import {DividerSection} from "../../components/atom/Divider";
 import {handleTimestamp} from "../../lib/function";
 import {TagStatus} from "../../components/atom/Tag";
 import {ListUploadedImage} from "../../components/atom/List";
+import {ButtonHelp} from "../../components/atom/Button";
 
 export default function UploadStruk() {
 	const [{images}] = useContext(Context);
 
 	const {query, push} = useRouter();
-	const {s} = query;
+	const {token, s} = query;
 
 	const [uploadBS, setUploadBS] = useState(false);
 
@@ -25,11 +26,12 @@ export default function UploadStruk() {
 		<HtmlPage
 			title="Upload Struk | Kansai Paint"
 			desc="Upload foto struk dan barang yang kamu beli, dapatkan berbagai macam hadiah menarik"
+			isBlack
 		>
 			{/* Modal */}
 			<ModalSuccessUpload
 				open={s}
-				onClose={() => push("/upload-struk")}
+				onClose={() => push(`/upload-struk/${token}`)}
 			/>
 
 			{/* Bottomsheet */}
@@ -81,15 +83,13 @@ export default function UploadStruk() {
 
 							{/* Body */}
 							<ListUploadedImage
-								image={image?.receipt.url}
-								title={image?.receipt.name}
+								data={image?.receipt}
 								type="receipt"
 								className="mt-2"
 							/>
 
 							<ListUploadedImage
-								image={image?.item.url}
-								title={image?.item.name}
+								data={image?.item}
 								type="item"
 								className="mt-2"
 							/>
@@ -99,6 +99,7 @@ export default function UploadStruk() {
 			)}
 
 			<FooterImage size="big" />
+			<ButtonHelp onClick={() => console.log("need help")} />
 		</HtmlPage>
 	);
 }

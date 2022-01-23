@@ -24,7 +24,9 @@ export function HtmlPage({title, desc, children, isBlack}) {
 				className="d-flex justify-content-center"
 				style={{
 					minHeight: "100vh",
-					backgroundColor: isBlack && pri.dark,
+					background:
+						isBlack &&
+						"linear-gradient(180deg, #003494 0%, #001954 100%)",
 					zIndex: 0,
 				}}
 			>

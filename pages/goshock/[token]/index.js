@@ -1,18 +1,23 @@
+import {useRouter} from "next/router";
 import {useState} from "react";
-import {gs, pri, warning} from "../../components/atom/Color";
-import {DividerSection} from "../../components/atom/Divider";
-import {HtmlPage} from "../../components/atom/HtmlPage";
-import Icon, {GoShock} from "../../components/atom/Icon";
-import {BoxCouponCard} from "../../components/molecule/Box";
-import {FooterImage} from "../../components/molecule/Footer";
-import {HeaderMain} from "../../components/molecule/Header";
+import {ButtonHelp} from "../../../components/atom/Button";
+import {gs, pri, warning} from "../../../components/atom/Color";
+import {DividerSection} from "../../../components/atom/Divider";
+import {HtmlPage} from "../../../components/atom/HtmlPage";
+import Icon, {GoShock} from "../../../components/atom/Icon";
+import {BoxCouponCard} from "../../../components/molecule/Box";
+import {FooterImage} from "../../../components/molecule/Footer";
+import {HeaderMain} from "../../../components/molecule/Header";
 import {
 	ModalDigitalPrize,
 	ModalPhysicalPrize,
-} from "../../components/molecule/Modal";
-import {handleTimestamp} from "../../lib/function";
+} from "../../../components/molecule/Modal";
+import {handleTimestamp} from "../../../lib/function";
 
 export default function GoShockPage() {
+	const {push, query} = useRouter();
+	const {token} = query;
+
 	const [chance, setChance] = useState(2);
 	const [resetGoshock, setResetGoshock] = useState(false);
 
@@ -164,13 +169,17 @@ export default function GoShockPage() {
 					<section className="m-3 d-flex flex-column gap-3">
 						{prizes.map((prize, key) => (
 							<div
+								key={key}
 								className="p-3"
 								style={{
 									borderRadius: 4,
 									backgroundColor: gs.white,
 									borderLeft: `2px solid ${warning.main}`,
+									cursor: "pointer",
 								}}
-								key={key}
+								onClick={() =>
+									push(`/goshock/${token}/${prize.id}`)
+								}
 							>
 								<header className="d-flex align-items-center justify-content-between">
 									<div className="d-flex align-items-center">
@@ -232,6 +241,7 @@ export default function GoShockPage() {
 			)}
 
 			<FooterImage size="big" />
+			<ButtonHelp onClick={() => console.log("need help")} />
 		</HtmlPage>
 	);
 }

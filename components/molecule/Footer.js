@@ -1,18 +1,16 @@
-export function FooterImage({size}) {
+export function FooterImage() {
 	return (
 		<img
-			src={`/image/footer/${size}.svg`}
+			src={`/image/pixel/Goshock.png`}
 			height="auto"
 			width="100%"
 			alt="Footer Image"
 			style={{
-				position: "absolute",
-				bottom: 0,
-				left: 0,
 				width: "100%",
 				maxWidth: 720,
 				zIndex: -1,
 			}}
+			className="p-3"
 		/>
 	);
 }

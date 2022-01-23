@@ -10,8 +10,9 @@ import {BoxInfo} from "./Box";
 import {HeaderBottomsheet} from "./Header";
 
 export function BottomsheetUploadReceiptAndItem({open, onDismiss}) {
-	const {push} = useRouter();
 	const [state, setState] = useContext(Context);
+	const {push, query} = useRouter();
+	const {token} = query;
 
 	// Images
 	const [receiptImage, setReceiptImage] = useState(null);
@@ -64,7 +65,7 @@ export function BottomsheetUploadReceiptAndItem({open, onDismiss}) {
 			// Normalize
 			clearState();
 			onDismiss();
-			push("/upload-struk?s=true");
+			push(`/upload-struk/${token}?s=true`);
 		}
 	}, [
 		isUploading,
@@ -76,6 +77,7 @@ export function BottomsheetUploadReceiptAndItem({open, onDismiss}) {
 		push,
 		setState,
 		state.images,
+		token,
 	]);
 
 	return (

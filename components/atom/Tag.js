@@ -1,11 +1,11 @@
 import {useMemo} from "react";
 import {danger, gs, success} from "./Color";
 
-export function TagDefault({backgroundColor, color, title}) {
+export function TagDefault({backgroundColor, color, title, className, style}) {
 	return (
 		<div
-			className="px-2 py-1 d-inline-flex align-items-center justify-content-center"
-			style={{borderRadius: 100, backgroundColor}}
+			className={`px-2 py-1 d-inline-flex align-items-center justify-content-center ${className}`}
+			style={{borderRadius: 100, backgroundColor, ...style}}
 		>
 			<p className="--f-small-regular" style={{color}}>
 				{title}
@@ -14,7 +14,7 @@ export function TagDefault({backgroundColor, color, title}) {
 	);
 }
 
-export function TagStatus({status}) {
+export function TagStatus({status, className, style}) {
 	const handleStatus = useMemo(() => {
 		switch (status) {
 			case "on_process":
@@ -42,8 +42,8 @@ export function TagStatus({status}) {
 
 	return (
 		<div
-			className="px-2 py-1 d-flex align-items-center justify-content-center"
-			style={{borderRadius: 100, backgroundColor}}
+			className={`px-2 py-1 d-flex align-items-center justify-content-center ${className}`}
+			style={{borderRadius: 100, backgroundColor, ...style}}
 		>
 			<p className="--f-small-regular" style={{color}}>
 				Status Validasi: {title}
