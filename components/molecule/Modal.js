@@ -1,7 +1,7 @@
 import {useState} from "react";
 import Button from "../atom/Button";
-import {gs, pri} from "../atom/Color";
-import {GoShock} from "../atom/Icon";
+import {danger, gs, pri, success} from "../atom/Color";
+import Icon, {GoShock} from "../atom/Icon";
 import {Input, TextArea} from "../atom/Input";
 
 function Modal({children, open, onClose, transparentBackground}) {
@@ -40,7 +40,7 @@ function Modal({children, open, onClose, transparentBackground}) {
 					backgroundColor: transparentBackground
 						? "transparent"
 						: gs.white,
-					borderRadius: 16,
+					borderRadius: 8,
 					opacity: open ? 1 : 0,
 					transform: open ? "scale(1)" : "scale(0)",
 					transition: "300ms",
@@ -191,6 +191,43 @@ export function ModalDigitalPrize({open, prizeName, onSend}) {
 					onSend();
 				}}
 				disabled={!number}
+			/>
+		</Modal>
+	);
+}
+
+export function ModalRedeemSuccess({open, onClose, data}) {
+	return (
+		<Modal open={open} onClose={onClose}>
+			<Icon icon="check" size={56} fill={success.main} />
+			<p
+				className="--f-normal-bold lh-base"
+				style={{color: success.main}}
+			>
+				Redeem Berhasil!
+			</p>
+			<p className="--f-normal-regular lh-base">{data?.name}</p>
+
+			<div className="d-flex align-items-center mt-3">
+				<img
+					src="/image/pixel/Coin.png"
+					height={16}
+					width={16}
+					alt="Kansai Points"
+				/>
+				<p
+					className="--f-semismall-semibold ms-2"
+					style={{color: danger.main}}
+				>
+					{data?.points} points
+				</p>
+			</div>
+
+			<Button
+				title="Oke"
+				type="primary"
+				className="mt-3 w-100"
+				onClick={onClose}
 			/>
 		</Modal>
 	);

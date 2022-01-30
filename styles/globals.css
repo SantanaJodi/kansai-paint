@@ -35,7 +35,7 @@
 	/* RSBS */
 	--rsbs-ml: calc((100vw - 720px) / 2);
 	--rsbs-mr: calc((100vw - 720px) / 2);
-	--rsbs-handle-bg: "none";
+	--rsbs-handle-bg: none;
 }
 
 @media (max-width: 720px) {

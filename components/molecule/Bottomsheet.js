@@ -3,8 +3,9 @@ import {useCallback, useContext, useEffect, useState} from "react";
 import {BottomSheet} from "react-spring-bottom-sheet";
 import "react-spring-bottom-sheet/dist/style.css";
 import Button from "../atom/Button";
-import {gs, pri} from "../atom/Color";
+import {danger, gs, pri, warning} from "../atom/Color";
 import {Context} from "../atom/Context";
+import {DividerLine} from "../atom/Divider";
 import {InputUploadPhoto} from "../atom/Input";
 import {BoxInfo} from "./Box";
 import {HeaderBottomsheet} from "./Header";
@@ -164,6 +165,126 @@ export function BottomsheetUploadReceiptAndItem({open, onDismiss}) {
 					/>
 				)}
 			</div>
+		</BottomSheet>
+	);
+}
+
+export function BottomsheetConfirmRedeem({open, onDismiss, data, onRedeem}) {
+	const [{userPoints}] = useContext(Context);
+
+	return (
+		<BottomSheet
+			open={open}
+			onDismiss={onDismiss}
+			snapPoints={({minHeight, maxHeight}) => [minHeight, maxHeight]}
+			defaultSnap={({lastSnap, snapPoints}) =>
+				lastSnap && Math.min(...snapPoints)
+			}
+			expandOnContentDrag
+		>
+			<HeaderBottomsheet
+				title="Konfirmasi Redeem Hadiah"
+				onClose={onDismiss}
+				color="black"
+			/>
+
+			<section className="m-3">
+				<p
+					className="--f-semismall-regular lh-base"
+					style={{color: gs.gray}}
+				>
+					Anda akan melakukan redeem untuk hadiah dengan detail
+					berikut ini
+				</p>
+
+				<div className="mt-3 d-flex align-items-center">
+					<img
+						src={data?.img}
+						height={80}
+						width={80}
+						style={{objectFit: "cover", borderRadius: 8}}
+						alt="Redeem Gift"
+					/>
+
+					<div className="ms-3">
+						<p className="--f-normal-bold lh-base">{data?.name}</p>
+
+						<div className="d-flex align-items-center">
+							<img
+								src="/image/pixel/Coin.png"
+								height={16}
+								width={16}
+								alt="Kansai Points"
+							/>
+							<p
+								className="--f-semismall-semibold ms-2 lh-base"
+								style={{color: warning.main}}
+							>
+								{data?.points} points
+							</p>
+						</div>
+					</div>
+				</div>
+
+				<div className="mt-3">
+					<div className="d-flex justify-content-between">
+						<p
+							className="--f-semismall-semibold"
+							style={{color: gs.gray}}
+						>
+							Rincian
+						</p>
+
+						<div>
+							<div className="d-flex align-items-center text-end">
+								<img
+									src="/image/pixel/Coin.png"
+									height={16}
+									width={16}
+									alt="Kansai Points"
+								/>
+								<p
+									className="--f-semismall-semibold ms-2 lh-base"
+									style={{color: gs.black}}
+								>
+									{userPoints} points
+								</p>
+							</div>
+
+							<p
+								className="--f-semismall-semibold ms-2 lh-base text-end"
+								style={{color: danger.main}}
+							>
+								- {data?.points} points
+							</p>
+						</div>
+					</div>
+
+					<DividerLine className="my-3" lineColor={gs.gray} />
+
+					<div className="d-flex justify-content-between">
+						<p
+							className="--f-semismall-semibold"
+							style={{color: gs.gray}}
+						>
+							Sisa points Anda
+						</p>
+						<p
+							className="--f-semismall-semibold ms-2 lh-base"
+							style={{color: warning.main}}
+						>
+							{userPoints - data?.points} points
+						</p>
+					</div>
+				</div>
+
+				<Button
+					type="primary"
+					title="Tukar"
+					className="mt-3 w-100"
+					onClick={onRedeem}
+				/>
+			</section>
 		</BottomSheet>
 	);
 }

@@ -1,6 +1,6 @@
 import {FooterImage} from "../../components/molecule/Footer";
 import {HtmlPage} from "../../components/atom/HtmlPage";
-import {HeaderMain} from "../../components/molecule/Header";
+import {HeaderMainCustomer} from "../../components/molecule/Header";
 import {BoxUpload} from "../../components/molecule/Box";
 import {BottomsheetUploadReceiptAndItem} from "../../components/molecule/Bottomsheet";
 import {useContext, useState} from "react";
@@ -26,7 +26,7 @@ export default function UploadStruk() {
 		<HtmlPage
 			title="Upload Struk | Kansai Paint"
 			desc="Upload foto struk dan barang yang kamu beli, dapatkan berbagai macam hadiah menarik"
-			isBlack
+			background="linear-gradient(180deg, #003494 0%, #001954 100%)"
 		>
 			{/* Modal */}
 			<ModalSuccessUpload
@@ -41,7 +41,7 @@ export default function UploadStruk() {
 			/>
 
 			{/* Main */}
-			<HeaderMain logo="black" />
+			<HeaderMainCustomer />
 
 			<BoxUpload className="m-3" onClick={() => setUploadBS(true)} />
 

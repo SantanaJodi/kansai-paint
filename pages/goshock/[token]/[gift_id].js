@@ -10,13 +10,13 @@ import {handleTimestamp} from "../../../lib/function";
 
 export default function GiftDetail() {
 	const {query, back} = useRouter();
-	const {gift} = query;
+	const {gift_id} = query;
 
 	return (
 		<HtmlPage
-			isBlack
 			title="Detail Hadiah"
 			desc="Detail hadiah kamu dari hasil GOSHOCK di Kansai"
+			background="linear-gradient(180deg, #003494 0%, #001954 100%)"
 		>
 			<HeaderChild title="Detail Hadiah" onBack={() => back()} />
 
@@ -64,7 +64,7 @@ export default function GiftDetail() {
 						className="--f-normal-bold lh-base mt-2"
 						style={{color: gs.white}}
 					>
-						{gift}
+						{gift_id}
 					</p>
 				</div>
 

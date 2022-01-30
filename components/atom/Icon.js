@@ -11,6 +11,7 @@ import Ticket from "../../public/icon/Ticket.svg";
 import Trash from "../../public/icon/Trash.svg";
 import WhatsApp from "../../public/icon/WhatsApp.svg";
 import X from "../../public/icon/X.svg";
+import Box from "../../public/icon/Box.svg";
 import {pri, sec} from "./Color";
 
 const customIcon = (fill, size) => ({
@@ -27,6 +28,7 @@ const customIcon = (fill, size) => ({
 	trash: <Trash fill={fill} height={size} width={size} />,
 	whatsapp: <WhatsApp fill={fill} height={size} width={size} />,
 	x: <X fill={fill} height={size} width={size} />,
+	box: <Box fill={fill} height={size} width={size} />,
 });
 
 export default function Icon({fill, size, icon, style, onClick, className}) {

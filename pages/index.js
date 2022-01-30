@@ -12,6 +12,9 @@ export default function Home() {
 					<Link href="/goshock/01">
 						<a>Halaman GoShock</a>
 					</Link>
+					<Link href="/tukar-hadiah/01">
+						<a>Halaman Tukar Hadiah</a>
+					</Link>
 				</div>
 			</div>
 		</HtmlPage>

@@ -7,7 +7,7 @@ import {HtmlPage} from "../../../components/atom/HtmlPage";
 import Icon, {GoShock} from "../../../components/atom/Icon";
 import {BoxCouponCard} from "../../../components/molecule/Box";
 import {FooterImage} from "../../../components/molecule/Footer";
-import {HeaderMain} from "../../../components/molecule/Header";
+import {HeaderMainCustomer} from "../../../components/molecule/Header";
 import {
 	ModalDigitalPrize,
 	ModalPhysicalPrize,
@@ -87,7 +87,7 @@ export default function GoShockPage() {
 		<HtmlPage
 			title="GoShock | Kansai Paint"
 			desc="Gosok kuponnya dan menangkan berbagai macam hadiah menarik"
-			isBlack
+			background="linear-gradient(180deg, #003494 0%, #001954 100%)"
 		>
 			{/* Modal */}
 			<ModalPhysicalPrize
@@ -105,7 +105,7 @@ export default function GoShockPage() {
 			/>
 
 			{/* Main */}
-			<HeaderMain logo="white" />
+			<HeaderMainCustomer logo="white" />
 
 			<div className="text-center m-3">
 				{chance && (

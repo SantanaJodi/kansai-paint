@@ -16,7 +16,7 @@ export default function HtmlHead({title, desc}) {
 	);
 }
 
-export function HtmlPage({title, desc, children, isBlack}) {
+export function HtmlPage({title, desc, children, background}) {
 	return (
 		<>
 			<HtmlHead title={title} desc={desc} />
@@ -24,9 +24,7 @@ export function HtmlPage({title, desc, children, isBlack}) {
 				className="d-flex justify-content-center"
 				style={{
 					minHeight: "100vh",
-					background:
-						isBlack &&
-						"linear-gradient(180deg, #003494 0%, #001954 100%)",
+					background,
 					zIndex: 0,
 				}}
 			>

@@ -1,7 +1,8 @@
+import {useMemo} from "react";
 import {gs, pri} from "../atom/Color";
 import Icon from "../atom/Icon";
 
-export function HeaderMain() {
+export function HeaderMainCustomer() {
 	return (
 		<>
 			{/* Header */}
@@ -22,6 +23,36 @@ export function HeaderMain() {
 
 				<img
 					src={`/image/pixel/Goshock Header.png`}
+					height={40}
+					width="auto"
+					alt="Kansai Goshock Logo"
+				/>
+			</header>
+
+			{/* Dummy */}
+			<div
+				style={{
+					height: 72,
+				}}
+			/>
+		</>
+	);
+}
+
+export function HeaderMainStore() {
+	return (
+		<>
+			{/* Header */}
+			<header
+				className="--fixed-full-width d-flex justify-content-center"
+				style={{
+					padding: 16,
+					backgroundColor: pri.dark,
+					zIndex: 1,
+				}}
+			>
+				<img
+					src={`/image/logo/white.png`}
 					height={40}
 					width="auto"
 					alt="Kansai Logo"
