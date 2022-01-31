@@ -45,11 +45,32 @@
 	}
 }
 
+@font-face {
+	font-family: FSElliotPro;
+	src: url("/font/FSELLIOTPRO.OTF");
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: FSElliotPro;
+	src: url("/font/FSELLIOTPROBOLD.OTF");
+	font-weight: 500;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: FSElliotPro, sans-serif;
+	src: url("/font/FSELLIOTPROHEAVY.OTF");
+	font-weight: bold;
+	font-style: normal;
+}
+
 html,
 body {
 	padding: 0;
 	margin: 0;
-	font-family: "Open Sans", sans-serif;
+	font-family: FSElliotPro, sans-serif;
 }
 
 input,

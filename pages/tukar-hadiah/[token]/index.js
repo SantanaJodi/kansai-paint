@@ -63,7 +63,6 @@ export default function TukarHadiah() {
 			address:
 				"Jl. Perangai Jaya Alam Bina Nusantara no 94, RT 01 RW 02, Jakarta Utara, DKI Jakarta",
 		});
-		redeemList.reverse();
 
 		setState((prev) => ({
 			...prev,

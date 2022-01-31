@@ -219,7 +219,7 @@ export function ModalRedeemSuccess({open, onClose, data}) {
 					className="--f-semismall-semibold ms-2"
 					style={{color: danger.main}}
 				>
-					{data?.points} points
+					- {data?.points} points
 				</p>
 			</div>
 

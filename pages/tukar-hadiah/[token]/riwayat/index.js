@@ -8,7 +8,8 @@ import {HeaderChild} from "../../../../components/molecule/Header";
 import {handleTimestamp} from "../../../../lib/function";
 
 export default function RedeemHistory() {
-	const {push} = useRouter();
+	const {push, query} = useRouter();
+	const {token} = query;
 	const [{redeemHistory}] = useContext(Context);
 
 	return (
@@ -35,87 +36,101 @@ export default function RedeemHistory() {
 
 			{redeemHistory && (
 				<ul className="m-3">
-					{redeemHistory.map((gift, key) => (
-						<li key={key} className="mb-3">
-							<div
-								className="p-3 d-flex"
-								style={{
-									backgroundColor: pri.dark,
-									boxShadow:
-										"0px 0px 16px rgba(0, 0, 0, 0.3)",
-									borderRadius: 4,
-								}}
+					{/* HistoryCards */}
+					{redeemHistory
+						.map((gift, key) => (
+							<li
+								key={key}
+								className="mb-3"
+								onClick={() =>
+									push(
+										`/tukar-hadiah/${token}/riwayat/${gift.id}`
+									)
+								}
 							>
-								{/* Gift Image */}
-								<img
-									src={gift?.img}
-									height={64}
-									width={64}
+								<div
+									className="p-3 d-flex"
 									style={{
-										objectFit: "cover",
+										backgroundColor: pri.dark,
+										boxShadow:
+											"0px 0px 16px rgba(0, 0, 0, 0.3)",
 										borderRadius: 4,
 									}}
-									alt="Redeem Gift"
-								/>
+								>
+									{/* Gift Image */}
+									<img
+										src={gift?.img}
+										height={64}
+										width={64}
+										style={{
+											objectFit: "cover",
+											borderRadius: 4,
+										}}
+										alt="Redeem Gift"
+									/>
 
-								{/* Gift Data */}
-								<div className="ms-3 d-flex flex-column flex-fill justify-content-between">
-									<p
-										className="--f-normal-bold lh-base"
-										style={{color: gs.white}}
-									>
-										{gift?.name}
-									</p>
-
-									<div className="d-flex justify-content-between">
+									{/* Gift Data */}
+									<div className="ms-3 d-flex flex-column flex-fill justify-content-between">
 										<p
-											className="--f-small-regular lh-base"
-											style={{color: gs.gray}}
+											className="--f-normal-bold lh-base"
+											style={{color: gs.white}}
 										>
-											{
-												handleTimestamp(gift?.timestamp)
-													.dateAndTime
-											}
+											{gift?.name}
 										</p>
 
-										<div className="d-flex align-items-center">
-											<img
-												src="/image/pixel/Coin.png"
-												height={12}
-												width={12}
-												alt="Kansai Points"
-											/>
+										<div className="d-flex justify-content-between">
+											<p
+												className="--f-small-regular lh-base"
+												style={{color: gs.gray}}
+											>
+												{
+													handleTimestamp(
+														gift?.timestamp
+													).dateAndTime
+												}
+											</p>
+
+											<div className="d-flex align-items-center">
+												<img
+													src="/image/pixel/Coin.png"
+													height={12}
+													width={12}
+													alt="Kansai Points"
+												/>
+												<p
+													className="--f-small-semibold ms-2 lh-base"
+													style={{
+														color: warning.main,
+													}}
+												>
+													{gift?.points} points
+												</p>
+											</div>
+										</div>
+
+										<div className="d-flex justify-content-between">
+											<p
+												className="--f-small-regular lh-base"
+												style={{color: gs.gray}}
+											>
+												ID: {gift?.id}
+											</p>
+
 											<p
 												className="--f-small-semibold ms-2 lh-base"
-												style={{color: warning.main}}
+												style={{
+													color: pri.main,
+													textDecoration: "underline",
+												}}
 											>
-												{gift?.points} points
+												Lihat Detail {">"}
 											</p>
 										</div>
 									</div>
-
-									<div className="d-flex justify-content-between">
-										<p
-											className="--f-small-regular lh-base"
-											style={{color: gs.gray}}
-										>
-											ID: {gift?.id}
-										</p>
-
-										<p
-											className="--f-small-semibold ms-2 lh-base"
-											style={{
-												color: pri.main,
-												textDecoration: "underline",
-											}}
-										>
-											Lihat Detail {">"}
-										</p>
-									</div>
 								</div>
-							</div>
-						</li>
-					))}
+							</li>
+						))
+						.reverse()}
 				</ul>
 			)}
 
