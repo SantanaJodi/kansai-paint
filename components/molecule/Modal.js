@@ -4,9 +4,8 @@ import {danger, gs, pri, success} from "../atom/Color";
 import Icon, {GoShock} from "../atom/Icon";
 import {Input, TextArea} from "../atom/Input";
 
-function Modal({children, open, onClose, transparentBackground}) {
+function LightBox({open, onClose, children}) {
 	return (
-		// Light Box
 		<div
 			style={{
 				position: "fixed",
@@ -34,6 +33,14 @@ function Modal({children, open, onClose, transparentBackground}) {
 				onClick={onClose}
 			/>
 
+			{children}
+		</div>
+	);
+}
+
+function Modal({children, open, onClose, transparentBackground}) {
+	return (
+		<LightBox open={open} onClose={onClose}>
 			{/* Modal */}
 			<div
 				style={{
@@ -50,7 +57,7 @@ function Modal({children, open, onClose, transparentBackground}) {
 			>
 				{children}
 			</div>
-		</div>
+		</LightBox>
 	);
 }
 
@@ -228,6 +235,30 @@ export function ModalRedeemSuccess({open, onClose, data}) {
 				type="primary"
 				className="mt-3 w-100"
 				onClick={onClose}
+			/>
+		</Modal>
+	);
+}
+
+export function ModalZoomInReceipt({open, onClose, src}) {
+	return (
+		<Modal open={open} onClose={onClose} transparentBackground>
+			<div
+				className="d-flex align-items-center gap-1"
+				onClick={onClose}
+				style={{cursor: "pointer"}}
+			>
+				<p className="--f-normal-regular" style={{color: gs.white}}>
+					Tutup
+				</p>
+				<Icon icon="x" fill={gs.white} size={24} />
+			</div>
+
+			<img
+				src={src}
+				style={{objectFit: "scale-down", height: "60vh", width: "auto"}}
+				alt="Display"
+				className="mt-3"
 			/>
 		</Modal>
 	);

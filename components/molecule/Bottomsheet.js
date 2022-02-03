@@ -9,6 +9,7 @@ import {DividerLine} from "../atom/Divider";
 import {InputUploadPhoto} from "../atom/Input";
 import {BoxInfo} from "./Box";
 import {HeaderBottomsheet} from "./Header";
+import {ModalZoomInReceipt} from "./Modal";
 
 export function BottomsheetUploadReceiptAndItem({open, onDismiss}) {
 	const [state, setState] = useContext(Context);
@@ -22,6 +23,10 @@ export function BottomsheetUploadReceiptAndItem({open, onDismiss}) {
 	// Upload Status
 	const [isUploading, setIsUploading] = useState(false);
 	const [uploadProgress, setUploadProgress] = useState(0);
+
+	// Receipt Example
+	const [zoomReceipt, setZoomReceipt] = useState(false);
+	const [receiptExample, setReceiptExample] = useState(null);
 
 	const clearState = useCallback(() => {
 		setReceiptImage(null);
@@ -82,90 +87,157 @@ export function BottomsheetUploadReceiptAndItem({open, onDismiss}) {
 	]);
 
 	return (
-		<BottomSheet
-			open={open}
-			onDismiss={!isUploading && onDismiss}
-			snapPoints={({minHeight, maxHeight}) => [minHeight, maxHeight]}
-			defaultSnap={({lastSnap, snapPoints}) =>
-				lastSnap && Math.min(...snapPoints)
-			}
-			expandOnContentDrag={!isUploading}
-		>
-			<HeaderBottomsheet
-				title="Upload Foto Struk &amp; Barang"
-				onClose={onDismiss}
+		<>
+			<ModalZoomInReceipt
+				open={zoomReceipt}
+				onClose={() => setZoomReceipt(false)}
+				src={receiptExample}
 			/>
 
-			<div className="m-3 d-flex gap-3">
-				<InputUploadPhoto
-					className="w-100"
-					title="Upload Foto Struk"
-					onChange={(blob) => setReceiptImage(blob)}
-					image={receiptImage?.url}
-				/>
-				<InputUploadPhoto
-					className="w-100"
-					title="Upload Foto Barang"
-					onChange={(blob) => setItemImage(blob)}
-					image={itemImage?.url}
-				/>
-			</div>
+			{!zoomReceipt && (
+				<BottomSheet
+					open={open}
+					onDismiss={!isUploading && onDismiss}
+					snapPoints={({minHeight, maxHeight}) => [
+						minHeight,
+						maxHeight,
+					]}
+					defaultSnap={({lastSnap, snapPoints}) =>
+						lastSnap && Math.min(...snapPoints)
+					}
+					expandOnContentDrag={!isUploading}
+				>
+					<HeaderBottomsheet
+						title="Upload Foto Struk &amp; Barang"
+						onClose={onDismiss}
+					/>
 
-			<BoxInfo
-				icon="info"
-				desc="Pastikan foto struk yang di-upload sesuai dengan barang yang Anda beli."
-				className="m-3"
-			/>
+					<div
+						className="m-3 d-flex gap-1 p-2 align-items-center"
+						style={{backgroundColor: gs.soft, borderRadius: 4}}
+					>
+						<div className="d-flex gap-2">
+							<img
+								src="/image/pixel/Receipt Example 1.jpeg"
+								height={56}
+								width={56}
+								alt="Receipt Example 1"
+								style={{
+									objectFit: "cover",
+									borderRadius: 4,
+									cursor: "pointer",
+								}}
+								onClick={() => {
+									setZoomReceipt(true);
+									setReceiptExample(
+										"/image/pixel/Receipt Example 1.jpeg"
+									);
+								}}
+							/>
 
-			{/* Progress Bar */}
-			{isUploading && (
-				<div className="m-3">
-					<div className="d-flex justify-content-between align-items-center">
+							<img
+								src="/image/pixel/Receipt Example 2.jpeg"
+								height={56}
+								width={56}
+								alt="Receipt Example 1"
+								style={{
+									objectFit: "cover",
+									borderRadius: 4,
+									cursor: "pointer",
+								}}
+								onClick={() => {
+									setZoomReceipt(true);
+									setReceiptExample(
+										"/image/pixel/Receipt Example 2.jpeg"
+									);
+								}}
+							/>
+						</div>
+
 						<p
-							className="--f-semismall-regular lh-base"
+							className="--f-semismall-regular lh-base ms-3"
 							style={{color: gs.gray}}
 						>
-							Sedang mengupload...
-						</p>
-						<p
-							className="--f-semismall-regular lh-base"
-							style={{color: gs.gray}}
-						>
-							{uploadProgress}%
+							Contoh foto struk yang diterima. Klik Pada gambar
+							untuk memperbesar
 						</p>
 					</div>
 
-					<div style={{backgroundColor: gs.soft}} className="mt-3">
-						<div
-							style={{
-								width: `${uploadProgress}%`,
-								height: 3,
-								backgroundColor: pri.main,
-							}}
+					<div className="m-3 d-flex gap-3">
+						<InputUploadPhoto
+							className="w-100"
+							title="Upload Foto Struk"
+							onChange={(blob) => setReceiptImage(blob)}
+							image={receiptImage?.url}
+						/>
+						<InputUploadPhoto
+							className="w-100"
+							title="Upload Foto Barang"
+							onChange={(blob) => setItemImage(blob)}
+							image={itemImage?.url}
 						/>
 					</div>
-				</div>
-			)}
 
-			<div className="m-3">
-				{!isUploading ? (
-					<Button
-						className="w-100"
-						type="primary"
-						title="Upload"
-						onClick={handleUploadPhotos}
-						disabled={!receiptImage || !itemImage}
+					<BoxInfo
+						icon="info"
+						desc="Pastikan foto struk yang di-upload sesuai dengan barang yang Anda beli."
+						className="m-3"
 					/>
-				) : (
-					<Button
-						className="w-100"
-						type="danger"
-						title="Batalkan"
-						onClick={handleCancelUpload}
-					/>
-				)}
-			</div>
-		</BottomSheet>
+
+					{/* Progress Bar */}
+					{isUploading && (
+						<div className="m-3">
+							<div className="d-flex justify-content-between align-items-center">
+								<p
+									className="--f-semismall-regular lh-base"
+									style={{color: gs.gray}}
+								>
+									Sedang mengupload...
+								</p>
+								<p
+									className="--f-semismall-regular lh-base"
+									style={{color: gs.gray}}
+								>
+									{uploadProgress}%
+								</p>
+							</div>
+
+							<div
+								style={{backgroundColor: gs.soft}}
+								className="mt-3"
+							>
+								<div
+									style={{
+										width: `${uploadProgress}%`,
+										height: 3,
+										backgroundColor: pri.main,
+									}}
+								/>
+							</div>
+						</div>
+					)}
+
+					<div className="m-3">
+						{!isUploading ? (
+							<Button
+								className="w-100"
+								type="primary"
+								title="Upload"
+								onClick={handleUploadPhotos}
+								disabled={!receiptImage || !itemImage}
+							/>
+						) : (
+							<Button
+								className="w-100"
+								type="danger"
+								title="Batalkan"
+								onClick={handleCancelUpload}
+							/>
+						)}
+					</div>
+				</BottomSheet>
+			)}
+		</>
 	);
 }
 

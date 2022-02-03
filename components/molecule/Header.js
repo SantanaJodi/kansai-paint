@@ -1,4 +1,3 @@
-import {useMemo} from "react";
 import {gs, pri} from "../atom/Color";
 import Icon from "../atom/Icon";
 
@@ -44,7 +43,7 @@ export function HeaderMainStore() {
 		<>
 			{/* Header */}
 			<header
-				className="--fixed-full-width d-flex justify-content-center"
+				className="--fixed-full-width d-flex justify-content-between"
 				style={{
 					padding: 16,
 					backgroundColor: pri.dark,
@@ -56,6 +55,13 @@ export function HeaderMainStore() {
 					height={40}
 					width="auto"
 					alt="Kansai Logo"
+				/>
+
+				<img
+					src={`/image/pixel/Goshock Header.png`}
+					height={40}
+					width="auto"
+					alt="Kansai Goshock Logo"
 				/>
 			</header>
 
