@@ -147,8 +147,6 @@ export function ModalPhysicalPrize({open, prizeName, onSend}) {
 }
 
 export function ModalDigitalPrize({open, prizeName, onSend}) {
-	const [number, setNumber] = useState("");
-
 	return (
 		<Modal open={open} onClose={() => {}}>
 			<img
@@ -170,34 +168,11 @@ export function ModalDigitalPrize({open, prizeName, onSend}) {
 				</p>
 			</div>
 
-			<p
-				className="--f-semismall-regular lh-base text-center mt-2"
-				style={{color: gs.gray}}
-			>
-				Isi nomor HP Anda ke formulir di bawah ini
-			</p>
-
-			<Input
-				placeholder="Masukan nomor HP Anda..."
-				className="w-100 mt-3"
-				value={number}
-				type="text"
-				pattern="[0-9]*"
-				inputMode="numeric"
-				onChange={(val) =>
-					setNumber(parseInt(val.replace(/\.|\D/g, "")) || 0)
-				}
-			/>
-
 			<Button
 				type="primary"
-				title="Kirim"
+				title="Redeem Sekarang"
 				className="mt-3 w-100"
-				onClick={() => {
-					setNumber("");
-					onSend();
-				}}
-				disabled={!number}
+				onClick={() => onSend()}
 			/>
 		</Modal>
 	);

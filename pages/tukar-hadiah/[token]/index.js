@@ -5,6 +5,7 @@ import {gs, pri, warning} from "../../../components/atom/Color";
 import {Context} from "../../../components/atom/Context";
 import {HtmlPage} from "../../../components/atom/HtmlPage";
 import Icon from "../../../components/atom/Icon";
+import {ToasterBasic} from "../../../components/atom/Toaster";
 import {BottomsheetConfirmRedeem} from "../../../components/molecule/Bottomsheet";
 import {FooterGraphic} from "../../../components/molecule/Footer";
 import {HeaderMainStore} from "../../../components/molecule/Header";
@@ -16,6 +17,7 @@ export default function TukarHadiah() {
 
 	const [redeemConfirmation, setRedeemConfirmation] = useState(false);
 	const [redeemSuccess, setRedeemSuccess] = useState(false);
+	const [insuficientPoint, setInsuficientPoint] = useState(false);
 
 	const [redeemData, setRedeemData] = useState(null);
 
@@ -85,6 +87,13 @@ export default function TukarHadiah() {
 			desc="Tukar poin yang sudah Anda kumpulkan dengan hadiah menarik dari Kansai Paint"
 			background={pri.dark}
 		>
+			{/* Toaster */}
+			<ToasterBasic
+				title="Poin Anda tidak cukup"
+				show={insuficientPoint}
+				onDismiss={() => setInsuficientPoint(false)}
+			/>
+
 			{/* Modal */}
 			<ModalRedeemSuccess
 				open={redeemSuccess}
@@ -176,8 +185,9 @@ export default function TukarHadiah() {
 								}}
 								className="h-100"
 								onClick={() =>
-									userPoints > gift.points &&
-									handleRedeemConfirmation(gift)
+									userPoints > gift.points
+										? handleRedeemConfirmation(gift)
+										: setInsuficientPoint(true)
 								}
 							>
 								{/* Gift Image */}
@@ -221,9 +231,17 @@ export default function TukarHadiah() {
 											type="primary"
 											title="Tukar"
 											className="mt-3 w-100"
-											disabled={userPoints < gift.points}
+											style={
+												userPoints < gift.points && {
+													background: gs.gray,
+												}
+											}
 											onClick={() =>
-												handleRedeemConfirmation(gift)
+												userPoints < gift.points
+													? setInsuficientPoint(true)
+													: handleRedeemConfirmation(
+															gift
+													  )
 											}
 										/>
 									</div>

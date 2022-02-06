@@ -123,6 +123,11 @@ export function BoxCouponCard({onClick, reset}) {
 		reset && setGoshockPercentage(0);
 	}, [couponRef, reset]);
 
+	useEffect(
+		() => goshockPercentage === 100 && onClick(),
+		[goshockPercentage, onClick]
+	);
+
 	return (
 		<div className="d-flex justify-content-center">
 			<div className="position-relative text-center">
@@ -153,9 +158,6 @@ export function BoxCouponCard({onClick, reset}) {
 								zIndex: 0,
 							}}
 							className="d-flex flex-column align-items-center justify-content-center me-4"
-							onClick={() =>
-								goshockPercentage === 100 && onClick()
-							}
 						>
 							<animated.img
 								{...bind()}
