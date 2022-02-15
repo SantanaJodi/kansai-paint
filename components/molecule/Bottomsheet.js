@@ -112,7 +112,32 @@ export function BottomsheetUploadReceiptAndItem({open, onDismiss}) {
 						onClose={onDismiss}
 					/>
 
-					<div
+					<div className="d-flex flex-column align-items-center justify-content-center">
+						<p
+							className="--f-semismall-semibold mt-3"
+							style={{color: gs.gray}}
+						>
+							Contoh Struk Yang Diterima
+						</p>
+						<img
+							src="/image/pixel/bon_example.png"
+							height={360}
+							alt="Receipt Example 1"
+							style={{
+								objectFit: "cover",
+								borderRadius: 4,
+								cursor: "pointer",
+							}}
+							onClick={() => {
+								setZoomReceipt(true);
+								setReceiptExample(
+									"/image/pixel/bon_example.png"
+								);
+							}}
+						/>
+					</div>
+
+					{/* <div
 						className="m-3 d-flex gap-1 p-2 align-items-center"
 						style={{backgroundColor: gs.soft, borderRadius: 4}}
 					>
@@ -161,7 +186,7 @@ export function BottomsheetUploadReceiptAndItem({open, onDismiss}) {
 							Contoh foto struk yang diterima. Klik Pada gambar
 							untuk memperbesar
 						</p>
-					</div>
+					</div> */}
 
 					<div className="m-3 d-flex gap-3">
 						<InputUploadPhoto

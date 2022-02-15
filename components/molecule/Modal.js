@@ -231,7 +231,7 @@ export function ModalZoomInReceipt({open, onClose, src}) {
 
 			<img
 				src={src}
-				style={{objectFit: "scale-down", height: "60vh", width: "auto"}}
+				style={{objectFit: "scale-down", height: "80vh", width: "auto"}}
 				alt="Display"
 				className="mt-3"
 			/>
