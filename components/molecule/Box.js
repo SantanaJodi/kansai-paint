@@ -123,10 +123,12 @@ export function BoxCouponCard({onClick, reset}) {
 		reset && setGoshockPercentage(0);
 	}, [couponRef, reset]);
 
-	useEffect(
-		() => goshockPercentage === 100 && onClick(),
-		[goshockPercentage, onClick]
-	);
+	useEffect(() => {
+		if (goshockPercentage === 100) {
+			setGoshockPercentage(0);
+			onClick();
+		}
+	}, [goshockPercentage, onClick]);
 
 	return (
 		<div className="d-flex justify-content-center">

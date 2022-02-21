@@ -115,7 +115,10 @@ export function HeaderBottomsheet({title, onClose}) {
 	return (
 		<>
 			{/* Header */}
-			<header className="d-flex justify-content-between p-3 --header-bs">
+			<header
+				className="d-flex justify-content-between p-3 --header-bs"
+				style={{zIndex: 99}}
+			>
 				<p className="--f-normal-bold">{title}</p>
 				<Icon icon="x" fill={gs.light} size={16} onClick={onClose} />
 			</header>

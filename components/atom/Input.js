@@ -50,9 +50,12 @@ export function InputUploadPhoto({title, className, onChange, image}) {
 						const file = e.target.files[0];
 						file &&
 							onChange({
-								url: URL.createObjectURL(file),
+								url: URL.createObjectURL(file), // blob:localhost:3000/bwjdgf-827638-sakjcnd
 								name: file.name,
+								file,
 							});
+
+						console.log(file);
 					}}
 				/>
 			</label>

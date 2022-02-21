@@ -1,7 +1,9 @@
+import axios from "axios";
 import {useRouter} from "next/router";
 import {useCallback, useContext, useEffect, useState} from "react";
 import {BottomSheet} from "react-spring-bottom-sheet";
 import "react-spring-bottom-sheet/dist/style.css";
+import {baseUrl} from "../../lib/function";
 import Button from "../atom/Button";
 import {danger, gs, pri, warning} from "../atom/Color";
 import {Context} from "../atom/Context";
@@ -35,7 +37,7 @@ export function BottomsheetUploadReceiptAndItem({open, onDismiss}) {
 		setUploadProgress(0);
 	}, []);
 
-	const handleUploadPhotos = () => {
+	const handleUploadPhotos = async () => {
 		// Change with API
 		setIsUploading(true);
 		setUploadProgress(0);
@@ -45,6 +47,15 @@ export function BottomsheetUploadReceiptAndItem({open, onDismiss}) {
 				setUploadProgress(i);
 			}, 30 * i);
 		}
+
+		await axios
+			.post(`${baseUrl}/api/upload`, {
+				token,
+				receipt: receiptImage,
+				products: itemImage,
+			})
+			.then((res) => console.log(res))
+			.catch((err) => console.log(err));
 	};
 
 	const handleCancelUpload = () => {
