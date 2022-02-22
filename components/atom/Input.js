@@ -52,7 +52,7 @@ export function InputUploadPhoto({title, className, onChange, image}) {
 							onChange({
 								url: URL.createObjectURL(file), // blob:localhost:3000/bwjdgf-827638-sakjcnd
 								name: file.name,
-								file,
+								file: file,
 							});
 
 						console.log(file);
