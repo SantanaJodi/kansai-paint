@@ -1,15 +1,39 @@
 import nextConnect from "next-connect";
-import multer from "multer";
 import axios from "axios";
 import path from "path";
 import FormData from "form-data";
 import fs from "fs";
+import multer from "multer";
 
-export default function (req, res) {
-	const {receipt, products, token} = req.body;
+const upload = multer({
+	dest: "./public/uploads",
+});
 
+const nextAPI = nextConnect({
+	onError(error, req, res) {
+		res.status(501).json({
+			error: `Sorry something Happened! ${error.message}`,
+		});
+	},
+	onNoMatch(req, res) {
+		res.status(405).json({error: `Method '${req.method}' Not Allowed`});
+	},
+});
+
+nextAPI.use(upload.single("receipt"));
+
+nextAPI.post((req, res) => {
 	console.log(req.body);
-}
+	res.status(200).json({data: "success"});
+});
+
+export default nextAPI;
+
+export const config = {
+	api: {
+		bodyParser: false,
+	},
+};
 
 // const upload = multer({
 // 	storage: multer.diskStorage({

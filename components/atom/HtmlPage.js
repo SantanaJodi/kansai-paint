@@ -1,5 +1,5 @@
 import Head from "next/head";
-import {pri} from "./Color";
+import {gs, pri} from "./Color";
 
 export default function HtmlHead({title, desc}) {
 	return (
@@ -16,7 +16,7 @@ export default function HtmlHead({title, desc}) {
 	);
 }
 
-export function HtmlPage({title, desc, children, background}) {
+export function HtmlPage({title, desc, children, background, loading}) {
 	return (
 		<>
 			<HtmlHead title={title} desc={desc} />
@@ -36,7 +36,13 @@ export function HtmlPage({title, desc, children, background}) {
 						zIndex: 0,
 					}}
 				>
-					{children}
+					{loading && (
+						<div className="w-100 h-100 d-flex flex-column justify-content-center align-items-center">
+							<img src="/image/logo/white.png" height={56} />
+							<p style={{color: gs.white}}>Memuat...</p>
+						</div>
+					)}
+					{!loading && children}
 				</div>
 			</div>
 		</>

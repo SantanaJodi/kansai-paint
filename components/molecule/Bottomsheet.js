@@ -48,14 +48,14 @@ export function BottomsheetUploadReceiptAndItem({open, onDismiss}) {
 			}, 30 * i);
 		}
 
-		await axios
-			.post(`${baseUrl}/api/upload`, {
-				token,
-				receipt: receiptImage,
-				products: itemImage,
-			})
-			.then((res) => console.log(res))
-			.catch((err) => console.log(err));
+		// await axios
+		// 	.post(`${baseUrl}/api/upload`, {
+		// 		token,
+		// 		receipt: receiptImage,
+		// 		products: itemImage,
+		// 	})
+		// 	.then((res) => console.log(res))
+		// 	.catch((err) => console.log(err));
 	};
 
 	const handleCancelUpload = () => {
@@ -203,13 +203,16 @@ export function BottomsheetUploadReceiptAndItem({open, onDismiss}) {
 						<InputUploadPhoto
 							className="w-100"
 							title="Upload Foto Struk"
-							onChange={(blob) => setReceiptImage(blob)}
+							name="receipt"
+							onChange={(data) => setReceiptImage(data)}
 							image={receiptImage?.url}
 						/>
+
 						<InputUploadPhoto
 							className="w-100"
 							title="Upload Foto Barang"
-							onChange={(blob) => setItemImage(blob)}
+							name="products"
+							onChange={(data) => setItemImage(data)}
 							image={itemImage?.url}
 						/>
 					</div>

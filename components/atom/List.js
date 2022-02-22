@@ -3,7 +3,7 @@ import {useMemo} from "react";
 import {pri, warning} from "./Color";
 import {TagDefault} from "./Tag";
 
-export function ListUploadedImage({data, className, type}) {
+export function ListUploadedImage({data, name, className, type}) {
 	const handleType = useMemo(() => {
 		switch (type) {
 			case "receipt":
@@ -12,7 +12,7 @@ export function ListUploadedImage({data, className, type}) {
 					color: pri.main,
 					title: "Struk",
 				};
-			case "item":
+			case "product":
 				return {
 					backgroundColor: warning.light,
 					color: warning.main,
@@ -25,25 +25,21 @@ export function ListUploadedImage({data, className, type}) {
 
 	return (
 		<div className={`d-flex align-items-center ${className}`}>
-			<Image
+			<img
 				height={56}
 				width={56}
-				src={data.url}
-				objectFit="cover"
+				src={data}
+				style={{objectFit: "cover"}}
 				className="rounded-3"
-				alt={data.name}
+				alt={data}
 			/>
 
-			<div className="ms-3">
-				<TagDefault
-					title={title}
-					backgroundColor={backgroundColor}
-					color={color}
-				/>
-				<p className="--f-semismall-regular mt-1 lh-base">
-					{data?.name}
-				</p>
-			</div>
+			<TagDefault
+				title={title}
+				backgroundColor={backgroundColor}
+				color={color}
+				className="ms-2"
+			/>
 		</div>
 	);
 }

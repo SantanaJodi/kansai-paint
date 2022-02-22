@@ -1,5 +1,7 @@
+import axios from "axios";
 import {useRouter} from "next/router";
 import {useState} from "react";
+import useSWR from "swr";
 import {ButtonHelp} from "../../../components/atom/Button";
 import {gs, pri, warning} from "../../../components/atom/Color";
 import {DividerSection} from "../../../components/atom/Divider";
@@ -12,6 +14,7 @@ import {
 	ModalDigitalPrize,
 	ModalPhysicalPrize,
 } from "../../../components/molecule/Modal";
+import {getData} from "../../../lib/fetcher";
 import {handleTimestamp} from "../../../lib/function";
 
 export default function GoShockPage() {
@@ -25,6 +28,23 @@ export default function GoShockPage() {
 	const [digitalPrize, setDigitalPrize] = useState(false);
 
 	const [prizes, setPrizes] = useState([]);
+
+	const {data: payload, isValidating} = useSWR(
+		["/api/rewards", token],
+		getData
+	);
+	const {data} = payload || {};
+
+	const handleGetReward = async () => {
+		const res = await axios.get("/api/scratch", {
+			headers: {
+				Authorization: token,
+			},
+		});
+		const data = await res.data;
+
+		console.log(data);
+	};
 
 	const handleSendPhysicalPrize = () => {
 		setPhysicalPrize(false);
@@ -88,6 +108,7 @@ export default function GoShockPage() {
 			title="GoShock | Kansai Paint"
 			desc="Gosok kuponnya dan menangkan berbagai macam hadiah menarik"
 			background="linear-gradient(180deg, #003494 0%, #001954 100%)"
+			loading={isValidating}
 		>
 			{/* Modal */}
 			<ModalPhysicalPrize
@@ -108,7 +129,7 @@ export default function GoShockPage() {
 			<HeaderMainCustomer logo="white" />
 
 			<div className="text-center m-3">
-				{chance && (
+				{data?.Coupon.available !== 0 && (
 					<p
 						className="--f-normal-bold lh-base"
 						style={{color: gs.white}}
@@ -133,7 +154,7 @@ export default function GoShockPage() {
 						}}
 						className="lh-base ms-2"
 					>
-						{chance} x
+						{data?.Coupon.available} x
 					</p>
 				</div>
 
@@ -146,18 +167,11 @@ export default function GoShockPage() {
 				</p>
 			</div>
 
-			{chance !== 0 && (
-				<BoxCouponCard
-					onClick={() =>
-						chance < 2
-							? setDigitalPrize(true)
-							: setPhysicalPrize(true)
-					}
-					reset={resetGoshock}
-				/>
-			)}
+			{/* {data?.Coupon.available && ( */}
+			<BoxCouponCard onGetReward={handleGetReward} reset={resetGoshock} />
+			{/* )} */}
 
-			{prizes.length !== 0 && (
+			{data?.reward_histories.length !== 0 && (
 				<>
 					<DividerSection
 						title="Hadiah Anda"
@@ -167,7 +181,7 @@ export default function GoShockPage() {
 
 					{/* Cards */}
 					<section className="m-3 d-flex flex-column gap-3">
-						{prizes.map((prize, key) => (
+						{data?.reward_histories.map((reward, key) => (
 							<div
 								key={key}
 								className="p-3"
@@ -178,7 +192,7 @@ export default function GoShockPage() {
 									cursor: "pointer",
 								}}
 								onClick={() =>
-									push(`/goshock/${token}/${prize.id}`)
+									push(`/goshock/${token}/${reward?.id}`)
 								}
 							>
 								<header className="d-flex align-items-center justify-content-between">
@@ -188,17 +202,23 @@ export default function GoShockPage() {
 											size={24}
 											fill={warning.main}
 										/>
-										<p className="ms-2 --f-normal-bold">
-											{prize.name}
+										<p className="ms-2 --f-semismall-bold">
+											{reward?.name}
 										</p>
 									</div>
 
-									<p
-										className="--f-semismall-regular"
-										style={{color: gs.gray}}
-									>
-										ID: {prize.id}
-									</p>
+									{reward?.code && (
+										<p
+											className="--f-small-regular px-2 py-1"
+											style={{
+												color: gs.gray,
+												backgroundColor: gs.light,
+												borderRadius: 4,
+											}}
+										>
+											{reward?.code}
+										</p>
+									)}
 								</header>
 
 								<div className="mt-2">
@@ -208,9 +228,7 @@ export default function GoShockPage() {
 									>
 										Dikirim ke:{" "}
 										<span style={{color: gs.black}}>
-											{prize.type === "physical"
-												? prize.address
-												: prize.phone_number}
+											{reward?.send_to}
 										</span>
 									</p>
 
@@ -221,8 +239,9 @@ export default function GoShockPage() {
 										Pada:{" "}
 										<span style={{color: gs.black}}>
 											{
-												handleTimestamp(prize.timestamp)
-													.dateAndTime
+												handleTimestamp(
+													reward?.claim_time
+												).dateAndTime
 											}
 										</span>
 									</p>

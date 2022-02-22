@@ -1,16 +1,20 @@
 import {useRouter} from "next/router";
+import useSWR from "swr";
 import {ButtonHelp} from "../../../components/atom/Button";
 import {gs, warning} from "../../../components/atom/Color";
 import {HtmlPage} from "../../../components/atom/HtmlPage";
 import Icon from "../../../components/atom/Icon";
-import {Image} from "../../../components/atom/Image";
 import {FooterImage} from "../../../components/molecule/Footer";
 import {HeaderChild} from "../../../components/molecule/Header";
+import {getData} from "../../../lib/fetcher";
 import {handleTimestamp} from "../../../lib/function";
 
 export default function GiftDetail() {
 	const {query, back} = useRouter();
-	const {gift_id} = query;
+	const {gift_id, token} = query;
+
+	const {data: payload} = useSWR([`/api/rewards/${gift_id}`, token], getData);
+	const {data} = payload || {};
 
 	return (
 		<HtmlPage
@@ -40,7 +44,7 @@ export default function GiftDetail() {
 						className="--f-normal-bold"
 						style={{color: warning.main}}
 					>
-						iPhone 14
+						{data?.reward.name}
 					</p>
 				</div>
 
@@ -64,7 +68,7 @@ export default function GiftDetail() {
 						className="--f-normal-bold lh-base mt-2"
 						style={{color: gs.white}}
 					>
-						{gift_id}
+						{data?.reward.id}
 					</p>
 				</div>
 
@@ -73,20 +77,20 @@ export default function GiftDetail() {
 						className="--f-semismall-regular lh-base"
 						style={{color: gs.gray}}
 					>
-						Hadiah Ini dikirimkan ke alamat
+						Hadiah Ini dikirimkan ke
 					</p>
 					<p
 						className="--f-normal-bold lh-base mt-2"
-						style={{color: gs.white}}
+						style={{color: warning.main}}
 					>
-						Jl. Nama Jalan RT 01/RW 02, Nama Desa, Nama Kabupaten,
-						Nama Provinsi
+						{data?.reward.send_to}
 					</p>
 					<p
 						className="--f-semismall-regular lh-base mt-2"
 						style={{color: gs.white}}
 					>
-						Pada {handleTimestamp(Date.now()).dateAndTime}
+						Pada{" "}
+						{handleTimestamp(data?.reward.claim_time).dateAndTime}
 					</p>
 				</div>
 
@@ -99,24 +103,28 @@ export default function GiftDetail() {
 					</p>
 
 					<div className="d-flex gap-3 mt-2">
-						<Image
+						<img
 							style={{
 								height: "25vw",
 								maxHeight: 720 / 4,
+								objectFit: "cover",
 								width: "100%",
+								borderRadius: 8,
 							}}
 							alt="Receipt Image"
-							src="https://images.unsplash.com/photo-1623123096729-26b481292919?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80"
+							src={data?.receipt.items[0].image_link}
 						/>
 
-						<Image
+						<img
 							style={{
 								height: "25vw",
 								maxHeight: 720 / 4,
+								objectFit: "cover",
 								width: "100%",
+								borderRadius: 8,
 							}}
 							alt="Receipt Image"
-							src="https://images.unsplash.com/photo-1586527484765-979a20639316?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2340&q=80"
+							src={data?.receipt.items[0].image_link}
 						/>
 					</div>
 
@@ -124,7 +132,8 @@ export default function GiftDetail() {
 						className="--f-semismall-regular lh-base mt-2"
 						style={{color: gs.white}}
 					>
-						Diupload pada {handleTimestamp(Date.now()).dateAndTime}
+						Diupload pada{" "}
+						{handleTimestamp(data?.receipt.upload_time).dateAndTime}
 					</p>
 				</div>
 			</section>

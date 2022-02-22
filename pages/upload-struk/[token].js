@@ -3,24 +3,26 @@ import {HtmlPage} from "../../components/atom/HtmlPage";
 import {HeaderMainCustomer} from "../../components/molecule/Header";
 import {BoxUpload} from "../../components/molecule/Box";
 import {BottomsheetUploadReceiptAndItem} from "../../components/molecule/Bottomsheet";
-import {useContext, useState} from "react";
+import {useState} from "react";
 import {ModalSuccessUpload} from "../../components/molecule/Modal";
 import {useRouter} from "next/router";
-import {Context} from "../../components/atom/Context";
 import {gs} from "../../components/atom/Color";
 import {DividerSection} from "../../components/atom/Divider";
 import {handleTimestamp} from "../../lib/function";
 import {TagStatus} from "../../components/atom/Tag";
 import {ListUploadedImage} from "../../components/atom/List";
 import {ButtonHelp} from "../../components/atom/Button";
+import useSWR from "swr";
+import {getData} from "../../lib/fetcher";
 
 export default function UploadStruk() {
-	const [{images}] = useContext(Context);
-
 	const {query, push} = useRouter();
 	const {token, s} = query;
 
 	const [uploadBS, setUploadBS] = useState(false);
+
+	const {data: payload} = useSWR(["/api/receipts", token], getData);
+	const {data} = payload || {};
 
 	return (
 		<HtmlPage
@@ -46,7 +48,7 @@ export default function UploadStruk() {
 			<BoxUpload className="m-3" onClick={() => setUploadBS(true)} />
 
 			{/* Photo History of Receipt and Item */}
-			{images && (
+			{data?.receipts && (
 				<section>
 					{/* Title */}
 					<DividerSection
@@ -56,45 +58,48 @@ export default function UploadStruk() {
 					/>
 
 					{/* Cards */}
-					{images?.map((image, key) => (
-						<div
-							key={key}
-							className="m-3 p-3"
-							style={{
-								boxShadow: "8px 8px 16px rgba(0, 0, 0, 0.08)",
-								backgroundColor: gs.white,
-								borderRadius: 4,
-							}}
-						>
-							{/* Header */}
-							<div className="d-flex justify-content-between align-items-center">
-								<p
-									className="--f-small-regular lh-base"
-									style={{color: gs.gray}}
-								>
-									{
-										handleTimestamp(image?.timestamp)
-											.dateAndTime
-									}
-								</p>
+					{data.receipts
+						?.map((image, key) => (
+							<div
+								key={key}
+								className="m-3 p-3"
+								style={{
+									boxShadow:
+										"8px 8px 16px rgba(0, 0, 0, 0.08)",
+									backgroundColor: gs.white,
+									borderRadius: 4,
+								}}
+							>
+								{/* Header */}
+								<div className="d-flex justify-content-between align-items-center">
+									<p
+										className="--f-small-regular lh-base"
+										style={{color: gs.gray}}
+									>
+										{
+											handleTimestamp(image?.upload_time)
+												.dateAndTime
+										}
+									</p>
 
-								<TagStatus status={image?.status} />
+									<TagStatus status={image?.status} />
+								</div>
+
+								{/* Body */}
+								<div className="d-flex gap-3 mt-2">
+									<ListUploadedImage
+										data={image?.items[0].image_link}
+										type={image?.items[0].category}
+									/>
+
+									<ListUploadedImage
+										data={image?.items[1].image_link}
+										type={image?.items[1].category}
+									/>
+								</div>
 							</div>
-
-							{/* Body */}
-							<ListUploadedImage
-								data={image?.receipt}
-								type="receipt"
-								className="mt-2"
-							/>
-
-							<ListUploadedImage
-								data={image?.item}
-								type="item"
-								className="mt-2"
-							/>
-						</div>
-					))}
+						))
+						.reverse()}
 				</section>
 			)}
 

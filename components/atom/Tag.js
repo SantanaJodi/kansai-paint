@@ -17,21 +17,21 @@ export function TagDefault({backgroundColor, color, title, className, style}) {
 export function TagStatus({status, className, style}) {
 	const handleStatus = useMemo(() => {
 		switch (status) {
-			case "on_process":
+			case "waiting_approval":
 				return {
 					title: "Diproses",
 					backgroundColor: gs.soft,
 					color: gs.gray,
 				};
-			case "success":
+			case "approved":
 				return {
 					title: "Sukses",
 					backgroundColor: success.light,
 					color: success.main,
 				};
-			case "denied":
+			case "rejected":
 				return {
-					title: "Sukses",
+					title: "Ditolak",
 					backgroundColor: danger.light,
 					color: danger.main,
 				};

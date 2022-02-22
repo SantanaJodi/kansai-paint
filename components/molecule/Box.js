@@ -70,7 +70,7 @@ export function BoxInfo({desc, icon, className, style}) {
 	);
 }
 
-export function BoxCouponCard({onClick, reset}) {
+export function BoxCouponCard({onGetReward, reset}) {
 	const couponRef = useRef();
 	const [couponIsLoaded, setCouponIsLoaded] = useState(false);
 	const [goshockPercentage, setGoshockPercentage] = useState(0);
@@ -126,9 +126,9 @@ export function BoxCouponCard({onClick, reset}) {
 	useEffect(() => {
 		if (goshockPercentage === 100) {
 			setGoshockPercentage(0);
-			onClick();
+			onGetReward();
 		}
-	}, [goshockPercentage, onClick]);
+	}, [goshockPercentage, onGetReward]);
 
 	return (
 		<div className="d-flex justify-content-center">

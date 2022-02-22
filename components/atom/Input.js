@@ -3,7 +3,7 @@ import Ripples from "react-ripples";
 import {gs, pri} from "./Color";
 import Icon from "./Icon";
 
-export function InputUploadPhoto({title, className, onChange, image}) {
+export function InputUploadPhoto({title, className, onChange, image, name}) {
 	return (
 		<Ripples className={className}>
 			<label
@@ -46,7 +46,8 @@ export function InputUploadPhoto({title, className, onChange, image}) {
 					type="file"
 					accept="image/png, image/jpeg, image/jpg"
 					style={{display: "none"}}
-					onInput={(e) => {
+					name={name}
+					onChange={(e) => {
 						const file = e.target.files[0];
 						file &&
 							onChange({
@@ -54,8 +55,6 @@ export function InputUploadPhoto({title, className, onChange, image}) {
 								name: file.name,
 								file,
 							});
-
-						console.log(file);
 					}}
 				/>
 			</label>
