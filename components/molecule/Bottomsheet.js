@@ -1,9 +1,8 @@
 import axios from "axios";
 import {useRouter} from "next/router";
-import {useCallback, useContext, useEffect, useState} from "react";
+import {useCallback, useContext, useState} from "react";
 import {BottomSheet} from "react-spring-bottom-sheet";
 import "react-spring-bottom-sheet/dist/style.css";
-import {baseUrl} from "../../lib/function";
 import Button from "../atom/Button";
 import {danger, gs, pri, warning} from "../atom/Color";
 import {Context} from "../atom/Context";
@@ -12,11 +11,15 @@ import {InputUploadPhoto} from "../atom/Input";
 import {BoxInfo} from "./Box";
 import {HeaderBottomsheet} from "./Header";
 import {ModalZoomInReceipt} from "./Modal";
+import FormData from "form-data";
+import {ToasterBasic} from "../atom/Toaster";
 
 export function BottomsheetUploadReceiptAndItem({open, onDismiss}) {
-	const [state, setState] = useContext(Context);
 	const {push, query} = useRouter();
 	const {token} = query;
+
+	// Toaster
+	const [uploadError, setUploadError] = useState(false);
 
 	// Images
 	const [receiptImage, setReceiptImage] = useState(null);
@@ -24,7 +27,6 @@ export function BottomsheetUploadReceiptAndItem({open, onDismiss}) {
 
 	// Upload Status
 	const [isUploading, setIsUploading] = useState(false);
-	const [uploadProgress, setUploadProgress] = useState(0);
 
 	// Receipt Example
 	const [zoomReceipt, setZoomReceipt] = useState(false);
@@ -34,68 +36,39 @@ export function BottomsheetUploadReceiptAndItem({open, onDismiss}) {
 		setReceiptImage(null);
 		setItemImage(null);
 		setIsUploading(false);
-		setUploadProgress(0);
 	}, []);
 
 	const handleUploadPhotos = async () => {
 		// Change with API
 		setIsUploading(true);
-		setUploadProgress(0);
 
-		for (let i = 0; i <= 100; i++) {
-			setTimeout(() => {
-				setUploadProgress(i);
-			}, 30 * i);
-		}
+		var formData = new FormData();
+		formData.append("product", itemImage.file);
+		formData.append("receipt", receiptImage.file);
 
-		// await axios
-		// 	.post(`${baseUrl}/api/upload`, {
-		// 		token,
-		// 		receipt: receiptImage,
-		// 		products: itemImage,
-		// 	})
-		// 	.then((res) => console.log(res))
-		// 	.catch((err) => console.log(err));
-	};
-
-	const handleCancelUpload = () => {
-		setIsUploading(false);
-		setUploadProgress(0);
-	};
-
-	// Change with API
-	useEffect(() => {
-		if (isUploading && uploadProgress === 100) {
-			const images = state.images || [];
-			images.push({
-				timestamp: Date.now(),
-				status: "on_process",
-				receipt: receiptImage,
-				item: itemImage,
+		await axios
+			.post(`/api/upload`, formData, {
+				headers: {
+					"Content-Type": "multipart/form-data",
+					Authorization: token,
+				},
+			})
+			.then((response) => {
+				if (response.data.message === "success") {
+					push(`/upload-struk/${token}?s=true`);
+					onDismiss();
+					clearState();
+				} else {
+					setUploadError(true);
+					onDismiss();
+					clearState();
+				}
+			})
+			.catch((error) => {
+				setUploadError(true);
+				onDismiss();
 			});
-
-			setState((prev) => ({
-				...prev,
-				images: images?.reverse(),
-			}));
-
-			// Normalize
-			clearState();
-			onDismiss();
-			push(`/upload-struk/${token}?s=true`);
-		}
-	}, [
-		isUploading,
-		uploadProgress,
-		receiptImage,
-		itemImage,
-		clearState,
-		onDismiss,
-		push,
-		setState,
-		state.images,
-		token,
-	]);
+	};
 
 	return (
 		<>
@@ -103,6 +76,12 @@ export function BottomsheetUploadReceiptAndItem({open, onDismiss}) {
 				open={zoomReceipt}
 				onClose={() => setZoomReceipt(false)}
 				src={receiptExample}
+			/>
+
+			<ToasterBasic
+				show={uploadError}
+				onDismiss={() => setUploadError(false)}
+				title="Ukuran File Terlalu Besar"
 			/>
 
 			{!zoomReceipt && (
@@ -120,7 +99,7 @@ export function BottomsheetUploadReceiptAndItem({open, onDismiss}) {
 				>
 					<HeaderBottomsheet
 						title="Upload Foto Struk &amp; Barang"
-						onClose={onDismiss}
+						onClose={() => !isUploading && onDismiss()}
 					/>
 
 					<div className="d-flex flex-column align-items-center justify-content-center">
@@ -148,71 +127,17 @@ export function BottomsheetUploadReceiptAndItem({open, onDismiss}) {
 						/>
 					</div>
 
-					{/* <div
-						className="m-3 d-flex gap-1 p-2 align-items-center"
-						style={{backgroundColor: gs.soft, borderRadius: 4}}
-					>
-						<div className="d-flex gap-2">
-							<img
-								src="/image/pixel/Receipt Example 1.jpeg"
-								height={56}
-								width={56}
-								alt="Receipt Example 1"
-								style={{
-									objectFit: "cover",
-									borderRadius: 4,
-									cursor: "pointer",
-								}}
-								onClick={() => {
-									setZoomReceipt(true);
-									setReceiptExample(
-										"/image/pixel/Receipt Example 1.jpeg"
-									);
-								}}
-							/>
-
-							<img
-								src="/image/pixel/Receipt Example 2.jpeg"
-								height={56}
-								width={56}
-								alt="Receipt Example 1"
-								style={{
-									objectFit: "cover",
-									borderRadius: 4,
-									cursor: "pointer",
-								}}
-								onClick={() => {
-									setZoomReceipt(true);
-									setReceiptExample(
-										"/image/pixel/Receipt Example 2.jpeg"
-									);
-								}}
-							/>
-						</div>
-
-						<p
-							className="--f-semismall-regular lh-base ms-3"
-							style={{color: gs.gray}}
-						>
-							Contoh foto struk yang diterima. Klik Pada gambar
-							untuk memperbesar
-						</p>
-					</div> */}
-
 					<div className="m-3 d-flex gap-3">
 						<InputUploadPhoto
 							className="w-100"
 							title="Upload Foto Struk"
-							name="receipt"
-							onChange={(data) => setReceiptImage(data)}
+							onChange={(blob) => setReceiptImage(blob)}
 							image={receiptImage?.url}
 						/>
-
 						<InputUploadPhoto
 							className="w-100"
 							title="Upload Foto Barang"
-							name="products"
-							onChange={(data) => setItemImage(data)}
+							onChange={(blob) => setItemImage(blob)}
 							image={itemImage?.url}
 						/>
 					</div>
@@ -223,57 +148,13 @@ export function BottomsheetUploadReceiptAndItem({open, onDismiss}) {
 						className="m-3"
 					/>
 
-					{/* Progress Bar */}
-					{isUploading && (
-						<div className="m-3">
-							<div className="d-flex justify-content-between align-items-center">
-								<p
-									className="--f-semismall-regular lh-base"
-									style={{color: gs.gray}}
-								>
-									Sedang mengupload...
-								</p>
-								<p
-									className="--f-semismall-regular lh-base"
-									style={{color: gs.gray}}
-								>
-									{uploadProgress}%
-								</p>
-							</div>
-
-							<div
-								style={{backgroundColor: gs.soft}}
-								className="mt-3"
-							>
-								<div
-									style={{
-										width: `${uploadProgress}%`,
-										height: 3,
-										backgroundColor: pri.main,
-									}}
-								/>
-							</div>
-						</div>
-					)}
-
-					<div className="m-3">
-						{!isUploading ? (
-							<Button
-								className="w-100"
-								type="primary"
-								title="Upload"
-								onClick={handleUploadPhotos}
-								disabled={!receiptImage || !itemImage}
-							/>
-						) : (
-							<Button
-								className="w-100"
-								type="danger"
-								title="Batalkan"
-								onClick={handleCancelUpload}
-							/>
-						)}
-					</div>
+					<Button
+						className="w-100 px-3 pb-3"
+						type="primary"
+						title={isUploading ? "Mengupload..." : "Upload"}
+						onClick={handleUploadPhotos}
+						disabled={!receiptImage || !itemImage || isUploading}
+					/>
 				</BottomSheet>
 			)}
 		</>

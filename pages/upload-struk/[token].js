@@ -14,6 +14,7 @@ import {ListUploadedImage} from "../../components/atom/List";
 import {ButtonHelp} from "../../components/atom/Button";
 import useSWR from "swr";
 import {getData} from "../../lib/fetcher";
+import {LoadingLine} from "../../components/atom/Loading";
 
 export default function UploadStruk() {
 	const {query, push} = useRouter();
@@ -21,7 +22,11 @@ export default function UploadStruk() {
 
 	const [uploadBS, setUploadBS] = useState(false);
 
-	const {data: payload} = useSWR(["/api/receipts", token], getData);
+	const {
+		data: payload,
+		mutate,
+		isValidating,
+	} = useSWR(["/api/receipts", token], getData);
 	const {data} = payload || {};
 
 	return (
@@ -33,7 +38,10 @@ export default function UploadStruk() {
 			{/* Modal */}
 			<ModalSuccessUpload
 				open={s}
-				onClose={() => push(`/upload-struk/${token}`)}
+				onClose={() => {
+					push(`/upload-struk/${token}`);
+					mutate();
+				}}
 			/>
 
 			{/* Bottomsheet */}
@@ -48,7 +56,13 @@ export default function UploadStruk() {
 			<BoxUpload className="m-3" onClick={() => setUploadBS(true)} />
 
 			{/* Photo History of Receipt and Item */}
-			{data?.receipts && (
+			{isValidating && (
+				<div className="w-100 d-flex justify-content-center">
+					<LoadingLine />
+				</div>
+			)}
+
+			{!isValidating && data?.receipts && (
 				<section>
 					{/* Title */}
 					<DividerSection

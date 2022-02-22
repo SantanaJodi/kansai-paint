@@ -7,6 +7,7 @@ import {gs, pri, warning} from "../../../components/atom/Color";
 import {DividerSection} from "../../../components/atom/Divider";
 import {HtmlPage} from "../../../components/atom/HtmlPage";
 import Icon, {GoShock} from "../../../components/atom/Icon";
+import {LoadingLine} from "../../../components/atom/Loading";
 import {BoxCouponCard} from "../../../components/molecule/Box";
 import {FooterImage} from "../../../components/molecule/Footer";
 import {HeaderMainCustomer} from "../../../components/molecule/Header";
@@ -108,7 +109,6 @@ export default function GoShockPage() {
 			title="GoShock | Kansai Paint"
 			desc="Gosok kuponnya dan menangkan berbagai macam hadiah menarik"
 			background="linear-gradient(180deg, #003494 0%, #001954 100%)"
-			loading={isValidating}
 		>
 			{/* Modal */}
 			<ModalPhysicalPrize
@@ -171,7 +171,13 @@ export default function GoShockPage() {
 			<BoxCouponCard onGetReward={handleGetReward} reset={resetGoshock} />
 			{/* )} */}
 
-			{data?.reward_histories.length !== 0 && (
+			{isValidating && (
+				<div className="d-flex w-100 justify-content-center">
+					<LoadingLine />
+				</div>
+			)}
+
+			{!isValidating && data?.reward_histories.length !== 0 && (
 				<>
 					<DividerSection
 						title="Hadiah Anda"

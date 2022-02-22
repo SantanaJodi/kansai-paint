@@ -34,7 +34,7 @@ export function InputUploadPhoto({title, className, onChange, image, name}) {
 				{image && (
 					<img
 						src={image}
-						height="100%"
+						height={104}
 						width="100%"
 						style={{objectFit: "cover"}}
 						alt="Receipt and item"
@@ -53,7 +53,7 @@ export function InputUploadPhoto({title, className, onChange, image, name}) {
 							onChange({
 								url: URL.createObjectURL(file), // blob:localhost:3000/bwjdgf-827638-sakjcnd
 								name: file.name,
-								file,
+								file: file,
 							});
 					}}
 				/>
