@@ -8,27 +8,22 @@ const handler = nextConnect();
 handler.use(middleware);
 
 handler.post(async (req, res) => {
-	var data = new FormData();
-	data.append("receipt", fs.createReadStream(req.files.receipt[0].path));
-	data.append("product", fs.createReadStream(req.files.product[0].path));
+	var formData = new FormData();
+	formData.append("receipt", fs.createReadStream(req.files.receipt[0].path));
+	formData.append("product", fs.createReadStream(req.files.product[0].path));
 
 	var config = {
 		method: "post",
 		url: "https://kansai-test.motict.com/microsite/receipts",
 		headers: {
 			Authorization: req.headers.authorization,
-			...data.getHeaders(),
+			...formData.getHeaders(),
 		},
-		data: data,
+		data: formData,
 	};
 
-	axios(config)
-		.then(function (response) {
-			res.send(response.data);
-		})
-		.catch(function (error) {
-			res.send(error);
-		});
+	const {data} = await axios(config);
+	res.send(data);
 });
 
 export const config = {

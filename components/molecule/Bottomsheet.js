@@ -4,7 +4,7 @@ import {useCallback, useContext, useState} from "react";
 import {BottomSheet} from "react-spring-bottom-sheet";
 import "react-spring-bottom-sheet/dist/style.css";
 import Button from "../atom/Button";
-import {danger, gs, pri, warning} from "../atom/Color";
+import {danger, gs, warning} from "../atom/Color";
 import {Context} from "../atom/Context";
 import {DividerLine} from "../atom/Divider";
 import {InputUploadPhoto} from "../atom/Input";
@@ -57,16 +57,17 @@ export function BottomsheetUploadReceiptAndItem({open, onDismiss}) {
 				if (response.data.message === "success") {
 					push(`/upload-struk/${token}?s=true`);
 					onDismiss();
-					clearState();
 				} else {
 					setUploadError(true);
 					onDismiss();
-					clearState();
 				}
+
+				clearState();
 			})
-			.catch((error) => {
+			.catch(() => {
 				setUploadError(true);
 				onDismiss();
+				clearState();
 			});
 	};
 

@@ -38,7 +38,11 @@ export function HtmlPage({title, desc, children, background, loading}) {
 				>
 					{loading && (
 						<div className="w-100 h-100 d-flex flex-column justify-content-center align-items-center">
-							<img src="/image/logo/white.png" height={56} />
+							<img
+								src="/image/logo/white.png"
+								alt="Kansai Logo"
+								height={56}
+							/>
 							<p style={{color: gs.white}}>Memuat...</p>
 						</div>
 					)}

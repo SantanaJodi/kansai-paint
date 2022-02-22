@@ -167,9 +167,12 @@ export default function GoShockPage() {
 				</p>
 			</div>
 
-			{/* {data?.Coupon.available && ( */}
-			<BoxCouponCard onGetReward={handleGetReward} reset={resetGoshock} />
-			{/* )} */}
+			{data?.Coupon.available && (
+				<BoxCouponCard
+					onGetReward={handleGetReward}
+					reset={resetGoshock}
+				/>
+			)}
 
 			{isValidating && (
 				<div className="d-flex w-100 justify-content-center">
