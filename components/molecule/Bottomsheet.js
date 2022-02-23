@@ -54,6 +54,8 @@ export function BottomsheetUploadReceiptAndItem({open, onDismiss}) {
 				},
 			})
 			.then((response) => {
+				console.log(response);
+
 				if (response.data.message === "success") {
 					push(`/upload-struk/${token}?s=true`);
 					onDismiss();

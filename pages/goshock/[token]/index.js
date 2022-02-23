@@ -25,15 +25,18 @@ export default function GoShockPage() {
 	const [chance, setChance] = useState(2);
 	const [resetGoshock, setResetGoshock] = useState(false);
 
+	// Prize
+	const [prizeData, setPrizeData] = useState(null);
 	const [physicalPrize, setPhysicalPrize] = useState(false);
 	const [digitalPrize, setDigitalPrize] = useState(false);
 
 	const [prizes, setPrizes] = useState([]);
 
-	const {data: payload, isValidating} = useSWR(
-		["/api/rewards", token],
-		getData
-	);
+	const {
+		data: payload,
+		isValidating,
+		mutate,
+	} = useSWR(["/api/rewards", token], getData);
 	const {data} = payload || {};
 
 	const handleGetReward = async () => {
@@ -42,9 +45,16 @@ export default function GoShockPage() {
 				Authorization: token,
 			},
 		});
-		const data = await res.data;
 
-		console.log(data);
+		const {
+			data: {reward},
+		} = await res.data;
+		setPrizeData(reward);
+		reward?.type === "pg" ? setPhysicalPrize(true) : setDigitalPrize(true);
+
+		mutate();
+
+		console.log(reward);
 	};
 
 	const handleSendPhysicalPrize = () => {
@@ -114,14 +124,14 @@ export default function GoShockPage() {
 			<ModalPhysicalPrize
 				open={physicalPrize}
 				onClose={() => setPhysicalPrize(false)}
-				prizeName="iPhone 13"
+				prizeName={prizeData?.name}
 				onSend={handleSendPhysicalPrize}
 			/>
 
 			<ModalDigitalPrize
 				open={digitalPrize}
 				onClose={() => setDigitalPrize(false)}
-				prizeName="OVO 30.000"
+				prizeName={prizeData?.name}
 				onSend={handleSendDigitalPrize}
 			/>
 
@@ -180,93 +190,95 @@ export default function GoShockPage() {
 				</div>
 			)}
 
-			{!isValidating && data?.reward_histories.length !== 0 && (
-				<>
-					<DividerSection
-						title="Hadiah Anda"
-						color={gs.white}
-						className="m-3"
-					/>
+			{!isValidating &&
+				data?.reward_histories &&
+				data?.reward_histories.length !== 0 && (
+					<>
+						<DividerSection
+							title="Hadiah Anda"
+							color={gs.white}
+							className="m-3"
+						/>
 
-					{/* Cards */}
-					<section className="m-3 d-flex flex-column gap-3">
-						{data?.reward_histories.map((reward, key) => (
-							<div
-								key={key}
-								className="p-3"
-								style={{
-									borderRadius: 4,
-									backgroundColor: gs.white,
-									borderLeft: `2px solid ${warning.main}`,
-									cursor: "pointer",
-								}}
-								onClick={() =>
-									push(`/goshock/${token}/${reward?.id}`)
-								}
-							>
-								<header className="d-flex align-items-center justify-content-between">
-									<div className="d-flex align-items-center">
-										<Icon
-											icon="box_open"
-											size={24}
-											fill={warning.main}
-										/>
-										<p className="ms-2 --f-semismall-bold">
-											{reward?.name}
+						{/* Cards */}
+						<section className="m-3 d-flex flex-column gap-3">
+							{data?.reward_histories?.map((reward, key) => (
+								<div
+									key={key}
+									className="p-3"
+									style={{
+										borderRadius: 4,
+										backgroundColor: gs.white,
+										borderLeft: `2px solid ${warning.main}`,
+										cursor: "pointer",
+									}}
+									onClick={() =>
+										push(`/goshock/${token}/${reward?.id}`)
+									}
+								>
+									<header className="d-flex align-items-center justify-content-between">
+										<div className="d-flex align-items-center">
+											<Icon
+												icon="box_open"
+												size={24}
+												fill={warning.main}
+											/>
+											<p className="ms-2 --f-semismall-bold">
+												{reward?.name}
+											</p>
+										</div>
+
+										{reward?.code && (
+											<p
+												className="--f-small-regular px-2 py-1"
+												style={{
+													color: gs.gray,
+													backgroundColor: gs.light,
+													borderRadius: 4,
+												}}
+											>
+												{reward?.code}
+											</p>
+										)}
+									</header>
+
+									<div className="mt-2">
+										<p
+											className="--f-small-regular lh-base"
+											style={{color: gs.gray}}
+										>
+											Dikirim ke:{" "}
+											<span style={{color: gs.black}}>
+												{reward?.send_to}
+											</span>
+										</p>
+
+										<p
+											className="--f-small-regular lh-base mt-1"
+											style={{color: gs.gray}}
+										>
+											Pada:{" "}
+											<span style={{color: gs.black}}>
+												{
+													handleTimestamp(
+														reward?.claim_time
+													).dateAndTime
+												}
+											</span>
 										</p>
 									</div>
 
-									{reward?.code && (
-										<p
-											className="--f-small-regular px-2 py-1"
-											style={{
-												color: gs.gray,
-												backgroundColor: gs.light,
-												borderRadius: 4,
-											}}
-										>
-											{reward?.code}
-										</p>
-									)}
-								</header>
-
-								<div className="mt-2">
 									<p
-										className="--f-small-regular lh-base"
-										style={{color: gs.gray}}
+										className="--f-small-regular mt-2 text-end"
+										style={{color: pri.main}}
 									>
-										Dikirim ke:{" "}
-										<span style={{color: gs.black}}>
-											{reward?.send_to}
-										</span>
-									</p>
-
-									<p
-										className="--f-small-regular lh-base mt-1"
-										style={{color: gs.gray}}
-									>
-										Pada:{" "}
-										<span style={{color: gs.black}}>
-											{
-												handleTimestamp(
-													reward?.claim_time
-												).dateAndTime
-											}
-										</span>
+										Lihat Detail {">"}
 									</p>
 								</div>
-
-								<p
-									className="--f-small-regular mt-2 text-end"
-									style={{color: pri.main}}
-								>
-									Lihat Detail {">"}
-								</p>
-							</div>
-						))}
-					</section>
-				</>
-			)}
+							))}
+						</section>
+					</>
+				)}
 
 			<FooterImage size="big" />
 			<ButtonHelp onClick={() => console.log("need help")} />
