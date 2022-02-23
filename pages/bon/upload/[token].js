@@ -1,20 +1,20 @@
-import {FooterImage} from "../../components/molecule/Footer";
-import {HtmlPage} from "../../components/atom/HtmlPage";
-import {HeaderMainCustomer} from "../../components/molecule/Header";
-import {BoxUpload} from "../../components/molecule/Box";
-import {BottomsheetUploadReceiptAndItem} from "../../components/molecule/Bottomsheet";
+import {FooterImage} from "../../../components/molecule/Footer";
+import {HtmlPage} from "../../../components/atom/HtmlPage";
+import {HeaderMainCustomer} from "../../../components/molecule/Header";
+import {BoxUpload} from "../../../components/molecule/Box";
+import {BottomsheetUploadReceiptAndItem} from "../../../components/molecule/Bottomsheet";
 import {useState} from "react";
-import {ModalSuccessUpload} from "../../components/molecule/Modal";
+import {ModalSuccessUpload} from "../../../components/molecule/Modal";
 import {useRouter} from "next/router";
-import {gs} from "../../components/atom/Color";
-import {DividerSection} from "../../components/atom/Divider";
-import {handleTimestamp} from "../../lib/function";
-import {TagStatus} from "../../components/atom/Tag";
-import {ListUploadedImage} from "../../components/atom/List";
-import {ButtonHelp} from "../../components/atom/Button";
+import {gs} from "../../../components/atom/Color";
+import {DividerSection} from "../../../components/atom/Divider";
+import {handleTimestamp} from "../../../lib/function";
+import {TagStatus} from "../../../components/atom/Tag";
+import {ListUploadedImage} from "../../../components/atom/List";
+import {ButtonHelp} from "../../../components/atom/Button";
 import useSWR from "swr";
-import {getData} from "../../lib/fetcher";
-import {LoadingLine} from "../../components/atom/Loading";
+import {getData} from "../../../lib/fetcher";
+import {LoadingLine} from "../../../components/atom/Loading";
 
 export default function UploadStruk() {
 	const {query, push} = useRouter();

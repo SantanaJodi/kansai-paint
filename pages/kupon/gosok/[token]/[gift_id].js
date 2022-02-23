@@ -1,13 +1,13 @@
 import {useRouter} from "next/router";
 import useSWR from "swr";
-import {ButtonHelp} from "../../../components/atom/Button";
-import {gs, warning} from "../../../components/atom/Color";
-import {HtmlPage} from "../../../components/atom/HtmlPage";
-import Icon from "../../../components/atom/Icon";
-import {FooterImage} from "../../../components/molecule/Footer";
-import {HeaderChild} from "../../../components/molecule/Header";
-import {getData} from "../../../lib/fetcher";
-import {handleTimestamp} from "../../../lib/function";
+import {ButtonHelp} from "../../../../components/atom/Button";
+import {gs, warning} from "../../../../components/atom/Color";
+import {HtmlPage} from "../../../../components/atom/HtmlPage";
+import Icon from "../../../../components/atom/Icon";
+import {FooterImage} from "../../../../components/molecule/Footer";
+import {HeaderChild} from "../../../../components/molecule/Header";
+import {getData} from "../../../../lib/fetcher";
+import {handleTimestamp} from "../../../../lib/function";
 
 export default function GiftDetail() {
 	const {query, back} = useRouter();

@@ -70,7 +70,7 @@ export function BoxInfo({desc, icon, className, style}) {
 	);
 }
 
-export function BoxCouponCard({onGetReward, reset}) {
+export function BoxCouponCard({onGetReward, active}) {
 	const couponRef = useRef();
 	const [couponIsLoaded, setCouponIsLoaded] = useState(false);
 	const [goshockPercentage, setGoshockPercentage] = useState(0);
@@ -108,7 +108,7 @@ export function BoxCouponCard({onGetReward, reset}) {
 				}));
 			dragging &&
 				goshockPercentage < 100 &&
-				setGoshockPercentage(goshockPercentage + 0.5);
+				setGoshockPercentage(goshockPercentage + 0.25);
 		},
 		{
 			bounds: {left: -76, right: 64, top: -16, bottom: 76},
@@ -117,18 +117,13 @@ export function BoxCouponCard({onGetReward, reset}) {
 	);
 
 	useEffect(() => {
-		// Check if image is loaded
-		couponRef.current?.complete && setCouponIsLoaded(true);
+		couponRef.current?.complete && setCouponIsLoaded(true); // Check if image is loaded
 
-		reset && setGoshockPercentage(0);
-	}, [couponRef, reset]);
-
-	useEffect(() => {
 		if (goshockPercentage === 100) {
 			setGoshockPercentage(0);
 			onGetReward();
 		}
-	}, [goshockPercentage, onGetReward]);
+	}, [goshockPercentage, onGetReward, couponRef]);
 
 	return (
 		<div className="d-flex justify-content-center">
@@ -166,7 +161,7 @@ export function BoxCouponCard({onGetReward, reset}) {
 								style={{
 									...animStyle,
 									display:
-										goshockPercentage !== 100
+										active && goshockPercentage !== 100
 											? "block"
 											: "none",
 									touchAction: "none",
@@ -176,13 +171,14 @@ export function BoxCouponCard({onGetReward, reset}) {
 								src="/image/pixel/Coin.png"
 							/>
 
-							{goshockPercentage === 0 && (
+							{active && goshockPercentage === 0 && (
 								<p className="--f-small-semibold lh-base mt-2 p-2">
 									Gunakan koin di atas untuk mulai menggosok
 								</p>
 							)}
 
-							{goshockPercentage !== 0 &&
+							{active &&
+								goshockPercentage !== 0 &&
 								goshockPercentage < 100 && (
 									<p className="--f-small-semibold lh-base mt-2 p-2">
 										Terus gosok!{" "}
@@ -190,7 +186,7 @@ export function BoxCouponCard({onGetReward, reset}) {
 									</p>
 								)}
 
-							{goshockPercentage === 100 && (
+							{!active && (
 								<>
 									<div
 										className="d-flex align-items-center"
@@ -217,20 +213,22 @@ export function BoxCouponCard({onGetReward, reset}) {
 							)}
 
 							{/* Progress background */}
-							<div
-								style={{
-									height: `100%`,
-									width: `${goshockPercentage}%`,
-									backgroundColor:
-										goshockPercentage === 100
-											? success.light
-											: gs.white,
-									position: "absolute",
-									borderRadius: 8,
-									zIndex: -1,
-									left: 0,
-								}}
-							/>
+							{active && (
+								<div
+									style={{
+										height: `100%`,
+										width: `${goshockPercentage}%`,
+										backgroundColor:
+											goshockPercentage === 100
+												? success.light
+												: gs.white,
+										position: "absolute",
+										borderRadius: 8,
+										zIndex: -1,
+										left: 0,
+									}}
+								/>
+							)}
 						</div>
 					</div>
 				)}

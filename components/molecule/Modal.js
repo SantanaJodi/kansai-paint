@@ -138,7 +138,7 @@ export function ModalPhysicalPrize({open, prizeName, onSend}) {
 				className="mt-3 w-100"
 				onClick={() => {
 					setAddress("");
-					onSend();
+					onSend(address);
 				}}
 				disabled={!address}
 			/>
