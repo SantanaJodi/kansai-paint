@@ -1,0 +1,22 @@
+image: docker:latest
+
+services:
+  - docker:dind
+
+stages:
+  - build-http
+
+before_script:
+  # Login to Google Container Registry
+  - base64 -d $GCP_SA_KEY | docker login -u _json_key --password-stdin https://gcr.io
+
+build-http:
+  stage: build-http
+  only:
+    - main
+  script:
+    # Build and tag image for both GCR and Gitlab registries
+    - docker build -t gcr.io/$GCP_PROJECT_ID/$APP_NAME_KANSAI_GOSHOCK_MICROSITE_HTTP:latest -t gcr.io/$GCP_PROJECT_ID/$APP_NAME_KANSAI_GOSHOCK_MICROSITE_HTTP:$CI_PIPELINE_ID -f ./build/kansai-goshock-microsite_http/dockerfile .
+    # Push image to GCR
+    - docker push gcr.io/$GCP_PROJECT_ID/$APP_NAME_KANSAI_GOSHOCK_MICROSITE_HTTP:latest
+    - docker push gcr.io/$GCP_PROJECT_ID/$APP_NAME_KANSAI_GOSHOCK_MICROSITE_HTTP:$CI_PIPELINE_ID
