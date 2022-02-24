@@ -3,6 +3,8 @@ version: "3.8"
 services:
     web:
         container_name: kansai-goshock-microsite
+        env_file:
+            - .env
         build: .
         ports:
             - "3000:3000"
