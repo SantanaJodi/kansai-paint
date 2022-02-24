@@ -6,7 +6,7 @@ export default async function handler(req, res) {
 
 	var config = {
 		method: "post",
-		url: "https://kansai-test.motict.com/microsite/coupons/rewards/claim",
+		url: `${process.env.API_URL}/microsite/coupons/rewards/claim`,
 		headers: {
 			authorization,
 			"Content-Type": "application/json",

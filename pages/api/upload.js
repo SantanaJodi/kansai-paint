@@ -14,7 +14,7 @@ handler.post(async (req, res) => {
 
 	var config = {
 		method: "post",
-		url: "https://kansai-test.motict.com/microsite/receipts",
+		url: `${process.env.API_URL}/microsite/receipts`,
 		headers: {
 			Authorization: req.headers.authorization,
 			...formData.getHeaders(),

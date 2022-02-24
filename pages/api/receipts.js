@@ -5,7 +5,7 @@ export default async function handler(req, res) {
 
 	var config = {
 		method: "get",
-		url: "https://kansai-test.motict.com/microsite/receipts",
+		url: `${process.env.API_URL}/microsite/receipts`,
 		headers: {
 			authorization,
 		},
