@@ -38,7 +38,7 @@ export function TagStatus({status, className, style}) {
 		}
 	}, [status]);
 
-	const {title, backgroundColor, color} = handleStatus;
+	const {title, backgroundColor, color} = handleStatus || {};
 
 	return (
 		<div
