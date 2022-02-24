@@ -207,7 +207,7 @@ export function BoxCouponCard({onGetReward, active}) {
 										className="--f-small-semibold lh-base"
 										style={{color: success.dark}}
 									>
-										Tap untuk buka hadiahmu
+										Memuat hadiahmu...
 									</p>
 								</>
 							)}

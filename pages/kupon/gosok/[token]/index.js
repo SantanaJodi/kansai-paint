@@ -74,16 +74,21 @@ export default function GoShockPage() {
 		mutate();
 
 		// Reset Goshock
+		setPrizeData(null);
 		setIsGosokable(true);
 	};
 
 	const handleSendDigitalPrize = () => {
+		window.open(prizeData.redeem_url, "_blank");
 		setDigitalPrize(false);
 		mutate();
 
 		// Reset Goshock
+		setPrizeData(null);
 		setIsGosokable(true);
 	};
+
+	console.log(data);
 
 	return (
 		<HtmlPage
@@ -188,9 +193,14 @@ export default function GoShockPage() {
 											cursor: "pointer",
 										}}
 										onClick={() =>
-											push(
-												`/goshock/${token}/${reward?.id}`
-											)
+											reward.type === "dg"
+												? window.open(
+														reward.redeem_url,
+														"_blank"
+												  )
+												: push(
+														`/goshock/${token}/${reward?.id}`
+												  )
 										}
 									>
 										<header className="d-flex align-items-center justify-content-between">
