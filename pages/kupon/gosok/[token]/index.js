@@ -88,8 +88,6 @@ export default function GoShockPage() {
 		setIsGosokable(true);
 	};
 
-	console.log(data);
-
 	return (
 		<HtmlPage
 			title="GoShock | Kansai Paint"
@@ -199,7 +197,7 @@ export default function GoShockPage() {
 														"_blank"
 												  )
 												: push(
-														`/goshock/${token}/${reward?.id}`
+														`/kupon/gosok/${token}/${reward?.id}`
 												  )
 										}
 									>

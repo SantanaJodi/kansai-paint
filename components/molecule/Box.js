@@ -108,7 +108,7 @@ export function BoxCouponCard({onGetReward, active}) {
 				}));
 			dragging &&
 				goshockPercentage < 100 &&
-				setGoshockPercentage(goshockPercentage + 0.25);
+				setGoshockPercentage(goshockPercentage + 0.5);
 		},
 		{
 			bounds: {left: -76, right: 64, top: -16, bottom: 76},
@@ -156,7 +156,7 @@ export function BoxCouponCard({onGetReward, active}) {
 							}}
 							className="d-flex flex-column align-items-center justify-content-center me-4"
 						>
-							<animated.img
+							{/* <animated.img
 								{...bind()}
 								style={{
 									...animStyle,
@@ -169,7 +169,31 @@ export function BoxCouponCard({onGetReward, active}) {
 								height={56}
 								width={56}
 								src="/image/pixel/Coin.png"
-							/>
+							/> */}
+
+							<animated.div
+								{...bind()}
+								style={{
+									...animStyle,
+									display:
+										active && goshockPercentage !== 100
+											? "block"
+											: "none",
+									touchAction: "none",
+									height: 56,
+									width: 56,
+									borderRadius: 100,
+									backgroundColor: warning.main,
+								}}
+							>
+								<img
+									height={56}
+									width={56}
+									src="/image/pixel/Coin.png"
+									draggable={false}
+									alt="Kansai coin"
+								/>
+							</animated.div>
 
 							{active && goshockPercentage === 0 && (
 								<p className="--f-small-semibold lh-base mt-2 p-2">

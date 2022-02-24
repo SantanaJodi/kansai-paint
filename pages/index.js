@@ -6,7 +6,7 @@ export default function Home() {
 		<HtmlPage title="Kansai Paint" desc="Halaman awal Kansai Paint">
 			<div className="d-flex flex-column align-items-center justify-content-center h-100">
 				<div className="mt-3 d-flex flex-column gap-3 align-items-center">
-					<Link href="/bon/upload/KzYyODIyMTExMTIzNTg=">
+					<Link href="/struk/upload/KzYyODIyMTExMTIzNTg=">
 						<a>Halaman Upload Struk</a>
 					</Link>
 					<Link href="/kupon/gosok/KzYyODIyMTExMTIzNTg=">

@@ -39,7 +39,7 @@ export default function UploadStruk() {
 			<ModalSuccessUpload
 				open={s}
 				onClose={() => {
-					push(`/upload-struk/${token}`);
+					push(`/struk/upload/${token}`);
 					mutate();
 				}}
 			/>
