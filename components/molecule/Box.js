@@ -156,21 +156,6 @@ export function BoxCouponCard({onGetReward, active}) {
 							}}
 							className="d-flex flex-column align-items-center justify-content-center me-4"
 						>
-							{/* <animated.img
-								{...bind()}
-								style={{
-									...animStyle,
-									display:
-										active && goshockPercentage !== 100
-											? "block"
-											: "none",
-									touchAction: "none",
-								}}
-								height={56}
-								width={56}
-								src="/image/pixel/Coin.png"
-							/> */}
-
 							<animated.div
 								{...bind()}
 								style={{
