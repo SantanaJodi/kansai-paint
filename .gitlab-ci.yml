@@ -16,7 +16,7 @@ build-http:
     - main
   script:
     # Build and tag image for both GCR and Gitlab registries
-    - docker build -t gcr.io/$GCP_PROJECT_ID/$APP_NAME_KANSAI_GOSHOCK_MICROSITE_HTTP:latest -t gcr.io/$GCP_PROJECT_ID/$APP_NAME_KANSAI_GOSHOCK_MICROSITE_HTTP:$CI_PIPELINE_ID -f ./build/kansai-goshock-microsite_http/dockerfile .
+    - docker build -t gcr.io/$GCP_PROJECT_ID/$APP_NAME_KANSAI_GOSHOCK_MICROSITE:latest -t gcr.io/$GCP_PROJECT_ID/$APP_NAME_KANSAI_GOSHOCK_MICROSITE:$CI_PIPELINE_ID .
     # Push image to GCR
-    - docker push gcr.io/$GCP_PROJECT_ID/$APP_NAME_KANSAI_GOSHOCK_MICROSITE_HTTP:latest
-    - docker push gcr.io/$GCP_PROJECT_ID/$APP_NAME_KANSAI_GOSHOCK_MICROSITE_HTTP:$CI_PIPELINE_ID
+    - docker push gcr.io/$GCP_PROJECT_ID/$APP_NAME_KANSAI_GOSHOCK_MICROSITE:latest
+    - docker push gcr.io/$GCP_PROJECT_ID/$APP_NAME_KANSAI_GOSHOCK_MICROSITE:$CI_PIPELINE_ID
