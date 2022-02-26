@@ -108,7 +108,7 @@ export function BoxCouponCard({onGetReward, active}) {
 				}));
 			dragging &&
 				goshockPercentage < 100 &&
-				setGoshockPercentage(goshockPercentage + 0.5);
+				setGoshockPercentage(goshockPercentage + 1);
 		},
 		{
 			bounds: {left: -76, right: 64, top: -16, bottom: 76},
