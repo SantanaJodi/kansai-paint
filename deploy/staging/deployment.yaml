@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: Service
+metadata:
+    name: kansai-goshock-microsite
+spec:
+    type: ClusterIP
+    ports:
+        - port: 3000
+          targetPort: 3000
+    selector:
+        app: kansai-goshock-microsite
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: kansai-goshock-microsite
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: kansai-goshock-microsite
+    template:
+        metadata:
+            labels:
+                app: kansai-goshock-microsite
+        spec:
+            containers:
+                - name: kansai-goshock-microsite
+                  image: gcr.io/motict/kansai_goshock_microsite:latest
+                  imagePullPolicy: Always
+                  ports:
+                      - containerPort: 3000
+                  env:
+                      - name: API_URL
+                        value: https://api.kansaicoatings.co.id
+                      - name: DEPLOY
+                        value: "2"
+            imagePullSecrets:
+                - name: gcr
