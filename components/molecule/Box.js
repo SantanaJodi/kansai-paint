@@ -144,12 +144,12 @@ export function BoxCouponCard({onGetReward, active}) {
 								border: `1px dashed ${
 									goshockPercentage === 100
 										? success.main
-										: warning.main
+										: pri.main
 								}`,
 								width: "100%",
 								height: "100%",
 								borderRadius: 8,
-								backgroundColor: warning.light,
+								backgroundColor: pri.main,
 								position: "relative",
 								cursor: "pointer",
 								zIndex: 0,
@@ -230,7 +230,7 @@ export function BoxCouponCard({onGetReward, active}) {
 										backgroundColor:
 											goshockPercentage === 100
 												? success.light
-												: gs.white,
+												: pri.light,
 										position: "absolute",
 										borderRadius: 8,
 										zIndex: -1,

@@ -93,7 +93,7 @@ export default function GoShockPage() {
 			title="GoShock | Kansai Paint"
 			desc="Gosok kuponnya dan menangkan berbagai macam hadiah menarik"
 			background="linear-gradient(180deg, #003494 0%, #001954 100%)"
-			loading={!data}
+			// loading={!data}
 		>
 			{/* Modal */}
 			<ModalPhysicalPrize
