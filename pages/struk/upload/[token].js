@@ -118,7 +118,7 @@ export default function UploadStruk() {
 			)}
 
 			<FooterImage size="big" />
-			<ButtonHelp onClick={() => console.log("need help")} />
+			<ButtonHelp/>
 		</HtmlPage>
 	);
 }

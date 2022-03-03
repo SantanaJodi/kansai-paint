@@ -147,6 +147,8 @@ export function ModalPhysicalPrize({open, prizeName, onSend}) {
 }
 
 export function ModalDigitalPrize({open, prizeName, onSend}) {
+	const [phoneNumber, setPhoneNumber] = useState('');
+ 
 	return (
 		<Modal open={open} onClose={() => {}}>
 			<img
@@ -167,6 +169,15 @@ export function ModalDigitalPrize({open, prizeName, onSend}) {
 					{prizeName}
 				</p>
 			</div>
+
+			<p
+				className="--f-semismall-regular lh-base text-center mt-2"
+				style={{color: gs.gray}}
+			>
+				Isi formulir di bawah ini dengan nomor hp Anda
+			</p>
+
+			<Input type='tel' className='w-100 mt-3' placeholder='Misal: 081234567890' onChange={(val) => setPhoneNumber(val)} />
 
 			<Button
 				type="primary"

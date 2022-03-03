@@ -27,7 +27,7 @@ export default function GoShockPage() {
 	// Prize
 	const [prizeData, setPrizeData] = useState(null);
 	const [physicalPrize, setPhysicalPrize] = useState(false);
-	const [digitalPrize, setDigitalPrize] = useState(false);
+	const [digitalPrize, setDigitalPrize] = useState(true);
 
 	const {
 		data: payload,
@@ -268,7 +268,7 @@ export default function GoShockPage() {
 				)}
 
 			<FooterImage size="big" />
-			<ButtonHelp onClick={() => console.log("need help")} />
+			<ButtonHelp />
 		</HtmlPage>
 	);
 }
