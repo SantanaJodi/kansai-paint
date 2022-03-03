@@ -27,7 +27,7 @@ export default function GoShockPage() {
 	// Prize
 	const [prizeData, setPrizeData] = useState(null);
 	const [physicalPrize, setPhysicalPrize] = useState(false);
-	const [digitalPrize, setDigitalPrize] = useState(true);
+	const [digitalPrize, setDigitalPrize] = useState(false);
 
 	const {
 		data: payload,
