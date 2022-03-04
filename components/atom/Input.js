@@ -232,8 +232,8 @@ export function InputDropDown({
 						style={{resize: "none"}}
 					>
 						{
-							options?.map(data => (
-								<option value={data.value}>{data.name}</option>
+							options?.map((data, key) => (
+								<option key={key} value={data.value}>{data.name}</option>
 							))
 						}
 					</select>
