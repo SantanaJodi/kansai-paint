@@ -185,3 +185,60 @@ export function TextArea({
 		</div>
 	);
 }
+
+export function InputDropDown({
+	label,
+	value,
+	onChange,
+	isRequired,
+	maxLength,
+	className,
+	style,
+	options
+}) {
+	const [focus, setFocus] = useState(false)
+	return (
+		<div className={className} style={style}>
+			<label className="d-flex flex-column">
+				{/* Label */}
+				{label && (
+					<p className="--fs-normal-bold mb-2">
+						{label}{" "}
+						{isRequired && (
+							<span style={{color: danger.main}}>*</span>
+						)}
+					</p>
+				)}
+
+				{/* Field */}
+				<div
+					className="p-2 d-flex"
+					style={{
+						borderRadius: 4,
+						backgroundColor: gs.soft,
+						boxShadow: focus
+							? `0px 0px 0px 2px ${pri.main}`
+							: `0px 0px 0px 0px ${pri.main}`,
+						transition: "300ms",
+					}}
+				>
+					<select
+						value={value}
+						onChange={(e) => onChange && onChange(e.target.value)}
+						onFocus={() => setFocus(true)}
+						onBlur={() => setFocus(false)}
+						className="w-100 lh-base"
+						maxLength={maxLength}
+						style={{resize: "none"}}
+					>
+						{
+							options?.map(data => (
+								<option value={data.value}>{data.name}</option>
+							))
+						}
+					</select>
+				</div>
+			</label>
+		</div>
+	)
+}

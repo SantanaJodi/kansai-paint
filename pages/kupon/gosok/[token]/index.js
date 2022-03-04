@@ -154,7 +154,7 @@ export default function GoShockPage() {
 				</p>
 			</div>
 
-			{data?.Coupon.available !== 0 && (
+			{!isValidating && data?.Coupon.available !== 0 && (
 				<BoxCouponCard
 					onGetReward={handleGetReward}
 					active={isGosokable}

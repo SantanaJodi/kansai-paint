@@ -2,7 +2,7 @@ import {useState} from "react";
 import Button from "../atom/Button";
 import {danger, gs, pri, success} from "../atom/Color";
 import Icon, {GoShock} from "../atom/Icon";
-import {Input, TextArea} from "../atom/Input";
+import {Input, InputDropDown, TextArea} from "../atom/Input";
 
 function LightBox({open, onClose, children}) {
 	return (
@@ -147,8 +147,6 @@ export function ModalPhysicalPrize({open, prizeName, onSend}) {
 }
 
 export function ModalDigitalPrize({open, prizeName, onSend}) {
-	const [phoneNumber, setPhoneNumber] = useState('');
- 
 	return (
 		<Modal open={open} onClose={() => {}}>
 			<img
@@ -174,10 +172,37 @@ export function ModalDigitalPrize({open, prizeName, onSend}) {
 				className="--f-semismall-regular lh-base text-center mt-2"
 				style={{color: gs.gray}}
 			>
-				Isi formulir di bawah ini dengan nomor hp Anda
+				Pilih operator nomor handphone Anda
 			</p>
 
-			<Input type='tel' className='w-100 mt-3' placeholder='Misal: 081234567890' onChange={(val) => setPhoneNumber(val)} />
+			{/* <option value='indosat'>Indosat</option>
+						<option value='telkomsel'>Telkomsel</option>
+						<option value='xl'>XL</option>
+						<option value='axis'>Axis</option>
+						<option value='smartfren'>Smartfren</option> */}
+
+			<InputDropDown className='mt-3 w-100' options={[
+				{
+					value: 'indosat',
+					name: 'Indosat'
+				},
+				{
+					value: 'telkomsel',
+					name: 'Telkomsel'
+				},
+				{
+					value: 'xl',
+					name: 'XL'
+				},
+				{
+					value: 'axis',
+					name: 'Axis'
+				},
+				{
+					value: 'smartfren',
+					name: 'Smartfren'
+				},
+			]} />
 
 			<Button
 				type="primary"

@@ -74,17 +74,20 @@ body {
 }
 
 input,
+select,
 textarea {
 	border: none;
 	background-color: transparent;
 }
 
 textarea:focus,
+select:focus,
 input:focus {
 	outline: none;
 }
 
 textarea::placeholder,
+select::placeholder,
 input::placeholder {
 	color: var(--gs-gray);
 }

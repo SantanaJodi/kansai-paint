@@ -110,7 +110,7 @@ export function ButtonHelp() {
 					}}
 					onClick={(e) => {
 						e.preventDefault();
-						window.open('https://api.whatsapp.com/send?phone=6281932429518', '_blank')
+						window.open('https://api.whatsapp.com/send?phone=6281280700757', '_blank')
 					}}
 					className="text-start d-flex align-items-center gap-2"
 				>
