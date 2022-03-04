@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: goshock-kansaicoatings-ingress
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/proxy-body-size: 30m
+spec:
+  rules:
+  - host: goshock.kansaicoatings.co.id
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: kansai-goshock-microsite
+            port:
+              number: 3000
+  tls:
+  - hosts:
+    - goshock.kansaicoatings.co.id
+    secretName: goshock-kansaicoatings-co-id-tls
+status:
+  loadBalancer:
+    ingress:
+    - hostname: workaround.example.com
