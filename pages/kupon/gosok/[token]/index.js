@@ -14,6 +14,7 @@ import {HeaderMainCustomer} from "../../../../components/molecule/Header";
 import {
 	ModalDigitalPrize,
 	ModalPhysicalPrize,
+	ModalRedeemDigitalPrize,
 } from "../../../../components/molecule/Modal";
 import {getData} from "../../../../lib/fetcher";
 import {handleTimestamp} from "../../../../lib/function";
@@ -27,8 +28,9 @@ export default function GoShockPage() {
 	// Prize
 	const [prizeData, setPrizeData] = useState(null);
 	const [physicalPrize, setPhysicalPrize] = useState(false);
-	const [digitalPrize, setDigitalPrize] = useState(false);
-
+	const [digitalPrize, setDigitalPrize] = useState(true);
+	const [digitalPrizeRedeem, setDigitalPrizeRedeem] = useState(false)
+	
 	const {
 		data: payload,
 		isValidating,
@@ -79,8 +81,9 @@ export default function GoShockPage() {
 	};
 
 	const handleSendDigitalPrize = () => {
-		window.open(prizeData.redeem_url, "_blank");
+		// window.open(prizeData.redeem_url, "_blank");
 		setDigitalPrize(false);
+		setDigitalPrizeRedeem(true)
 		mutate();
 
 		// Reset Goshock
@@ -88,12 +91,16 @@ export default function GoShockPage() {
 		setIsGosokable(true);
 	};
 
+	const handleRedeemDigitalPrize = () => {
+		setDigitalPrizeRedeem(false)
+		console.log('Redeem Digital Prize')
+	}
+
 	return (
 		<HtmlPage
 			title="GoShock | Kansai Paint"
 			desc="Gosok kuponnya dan menangkan berbagai macam hadiah menarik"
 			background="linear-gradient(180deg, #003494 0%, #001954 100%)"
-			// loading={!data}
 		>
 			{/* Modal */}
 			<ModalPhysicalPrize
@@ -109,6 +116,8 @@ export default function GoShockPage() {
 				prizeName={prizeData?.name}
 				onSend={handleSendDigitalPrize}
 			/>
+
+			<ModalRedeemDigitalPrize open={digitalPrizeRedeem} onClose={() => setDigitalPrizeRedeem(false)} onRedeem={handleRedeemDigitalPrize} />
 
 			{/* Main */}
 			<HeaderMainCustomer logo="white" />

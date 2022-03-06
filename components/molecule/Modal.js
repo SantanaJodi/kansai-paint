@@ -175,12 +175,6 @@ export function ModalDigitalPrize({open, prizeName, onSend}) {
 				Pilih operator nomor handphone Anda
 			</p>
 
-			{/* <option value='indosat'>Indosat</option>
-						<option value='telkomsel'>Telkomsel</option>
-						<option value='xl'>XL</option>
-						<option value='axis'>Axis</option>
-						<option value='smartfren'>Smartfren</option> */}
-
 			<InputDropDown className='mt-3 w-100' options={[
 				{
 					value: 'indosat',
@@ -212,6 +206,29 @@ export function ModalDigitalPrize({open, prizeName, onSend}) {
 			/>
 		</Modal>
 	);
+}
+
+export function ModalRedeemDigitalPrize({open, onClose, onRedeem}) {
+	return (
+		<Modal open={open} onClose={onClose} >
+			<p
+				className="--f-normal-bold lh-base"
+				style={{color: success.main}}
+			>
+				Selamat Anda Mendapatkan:
+			</p>
+			<p className="--f-normal-regular lh-base">[Nama Hadiah]</p>
+
+			<p className="--f-small-regular lh-base" style={{color: gs.gray}} >Redeem hadiah Anda dengan klik tombol di bawah</p>
+
+			<Button
+				title="Oke"
+				type="primary"
+				className="mt-3 w-100"
+				onClick={onRedeem}
+			/>
+		</Modal>
+	)
 }
 
 export function ModalRedeemSuccess({open, onClose, data}) {
