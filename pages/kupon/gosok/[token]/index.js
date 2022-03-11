@@ -1,42 +1,42 @@
 import axios from "axios";
-import {useRouter} from "next/router";
-import {useState} from "react";
+import { useRouter } from "next/router";
+import { useState } from "react";
 import useSWR from "swr";
-import {ButtonHelp} from "../../../../components/atom/Button";
-import {gs, pri, warning} from "../../../../components/atom/Color";
-import {DividerSection} from "../../../../components/atom/Divider";
-import {HtmlPage} from "../../../../components/atom/HtmlPage";
-import Icon, {GoShock} from "../../../../components/atom/Icon";
-import {LoadingLine} from "../../../../components/atom/Loading";
-import {BoxCouponCard} from "../../../../components/molecule/Box";
-import {FooterImage} from "../../../../components/molecule/Footer";
-import {HeaderMainCustomer} from "../../../../components/molecule/Header";
+import { ButtonHelp } from "../../../../components/atom/Button";
+import { gs, pri, warning } from "../../../../components/atom/Color";
+import { DividerSection } from "../../../../components/atom/Divider";
+import { HtmlPage } from "../../../../components/atom/HtmlPage";
+import Icon, { GoShock } from "../../../../components/atom/Icon";
+import { LoadingLine } from "../../../../components/atom/Loading";
+import { BoxCouponCard } from "../../../../components/molecule/Box";
+import { FooterImage } from "../../../../components/molecule/Footer";
+import { HeaderMainCustomer } from "../../../../components/molecule/Header";
 import {
 	ModalDigitalPrize,
 	ModalPhysicalPrize,
 	ModalRedeemDigitalPrize,
 } from "../../../../components/molecule/Modal";
-import {getData} from "../../../../lib/fetcher";
-import {handleTimestamp} from "../../../../lib/function";
+import { getData } from "../../../../lib/fetcher";
+import { handleTimestamp } from "../../../../lib/function";
 
 export default function GoShockPage() {
-	const {push, query} = useRouter();
-	const {token} = query;
+	const { push, query } = useRouter();
+	const { token } = query;
 
 	const [isGosokable, setIsGosokable] = useState(true);
 
 	// Prize
 	const [prizeData, setPrizeData] = useState(null);
 	const [physicalPrize, setPhysicalPrize] = useState(false);
-	const [digitalPrize, setDigitalPrize] = useState(true);
-	const [digitalPrizeRedeem, setDigitalPrizeRedeem] = useState(false)
-	
+	const [digitalPrize, setDigitalPrize] = useState(false);
+	const [digitalPrizeRedeem, setDigitalPrizeRedeem] = useState(false);
+
 	const {
 		data: payload,
 		isValidating,
 		mutate,
 	} = useSWR(["/api/rewards", token], getData);
-	const {data} = payload || {};
+	const { data } = payload || {};
 
 	const handleGetReward = async () => {
 		setIsGosokable(false);
@@ -47,7 +47,7 @@ export default function GoShockPage() {
 		});
 
 		const {
-			data: {reward},
+			data: { reward },
 		} = await res.data;
 		setPrizeData(reward);
 		reward?.type === "pg" ? setPhysicalPrize(true) : setDigitalPrize(true);
@@ -83,7 +83,7 @@ export default function GoShockPage() {
 	const handleSendDigitalPrize = () => {
 		// window.open(prizeData.redeem_url, "_blank");
 		setDigitalPrize(false);
-		setDigitalPrizeRedeem(true)
+		setDigitalPrizeRedeem(true);
 		mutate();
 
 		// Reset Goshock
@@ -92,16 +92,15 @@ export default function GoShockPage() {
 	};
 
 	const handleRedeemDigitalPrize = () => {
-		setDigitalPrizeRedeem(false)
-		console.log('Redeem Digital Prize')
-	}
+		setDigitalPrizeRedeem(false);
+		console.log("Redeem Digital Prize");
+	};
 
 	return (
 		<HtmlPage
 			title="GoShock | Kansai Paint"
 			desc="Gosok kuponnya dan menangkan berbagai macam hadiah menarik"
-			background="linear-gradient(180deg, #003494 0%, #001954 100%)"
-		>
+			background="linear-gradient(180deg, #003494 0%, #001954 100%)">
 			{/* Modal */}
 			<ModalPhysicalPrize
 				open={physicalPrize}
@@ -117,24 +116,24 @@ export default function GoShockPage() {
 				onSend={handleSendDigitalPrize}
 			/>
 
-			<ModalRedeemDigitalPrize open={digitalPrizeRedeem} onClose={() => setDigitalPrizeRedeem(false)} onRedeem={handleRedeemDigitalPrize} />
+			<ModalRedeemDigitalPrize
+				open={digitalPrizeRedeem}
+				onClose={() => setDigitalPrizeRedeem(false)}
+				onRedeem={handleRedeemDigitalPrize}
+			/>
 
 			{/* Main */}
 			<HeaderMainCustomer logo="white" />
 
 			<div className="text-center m-3">
 				{data?.Coupon.available !== 0 && (
-					<p
-						className="--f-normal-bold lh-base"
-						style={{color: gs.white}}
-					>
+					<p className="--f-normal-bold lh-base" style={{ color: gs.white }}>
 						Selamat!
 					</p>
 				)}
 				<p
 					className="--f-normal-regular lh-base mt-2"
-					style={{color: gs.white}}
-				>
+					style={{ color: gs.white }}>
 					Anda memiliki kesempatan
 				</p>
 
@@ -147,8 +146,7 @@ export default function GoShockPage() {
 								fontWeight: "bold",
 								color: warning.main,
 							}}
-							className="lh-base ms-2"
-						>
+							className="lh-base ms-2">
 							{data?.Coupon.available} x
 						</p>
 					</div>
@@ -156,18 +154,14 @@ export default function GoShockPage() {
 
 				<p
 					className="--f-normal-regular lh-base mt-2"
-					style={{color: gs.white}}
-				>
-					Untuk melakukan <GoShock className="--f-normal-bold" />{" "}
-					kupon berhadiah
+					style={{ color: gs.white }}>
+					Untuk melakukan <GoShock className="--f-normal-bold" /> kupon
+					berhadiah
 				</p>
 			</div>
 
 			{!isValidating && data?.Coupon.available !== 0 && (
-				<BoxCouponCard
-					onGetReward={handleGetReward}
-					active={isGosokable}
-				/>
+				<BoxCouponCard onGetReward={handleGetReward} active={isGosokable} />
 			)}
 
 			{isValidating && (
@@ -201,22 +195,12 @@ export default function GoShockPage() {
 										}}
 										onClick={() =>
 											reward.type === "dg"
-												? window.open(
-														reward.redeem_url,
-														"_blank"
-												  )
-												: push(
-														`/kupon/gosok/${token}/${reward?.id}`
-												  )
-										}
-									>
+												? window.open(reward.redeem_url, "_blank")
+												: push(`/kupon/gosok/${token}/${reward?.id}`)
+										}>
 										<header className="d-flex align-items-center justify-content-between">
 											<div className="d-flex align-items-center">
-												<Icon
-													icon="box_open"
-													size={24}
-													fill={warning.main}
-												/>
+												<Icon icon="box_open" size={24} fill={warning.main} />
 												<p className="ms-2 --f-semismall-bold">
 													{reward?.name}
 												</p>
@@ -227,11 +211,9 @@ export default function GoShockPage() {
 													className="--f-small-regular px-2 py-1"
 													style={{
 														color: gs.gray,
-														backgroundColor:
-															gs.light,
+														backgroundColor: gs.light,
 														borderRadius: 4,
-													}}
-												>
+													}}>
 													{reward?.code}
 												</p>
 											)}
@@ -240,33 +222,26 @@ export default function GoShockPage() {
 										<div className="mt-2">
 											<p
 												className="--f-small-regular lh-base"
-												style={{color: gs.gray}}
-											>
+												style={{ color: gs.gray }}>
 												Dikirim ke:{" "}
-												<span style={{color: gs.black}}>
+												<span style={{ color: gs.black }}>
 													{reward?.send_to}
 												</span>
 											</p>
 
 											<p
 												className="--f-small-regular lh-base mt-1"
-												style={{color: gs.gray}}
-											>
+												style={{ color: gs.gray }}>
 												Pada:{" "}
-												<span style={{color: gs.black}}>
-													{
-														handleTimestamp(
-															reward?.claim_time
-														).dateAndTime
-													}
+												<span style={{ color: gs.black }}>
+													{handleTimestamp(reward?.claim_time).dateAndTime}
 												</span>
 											</p>
 										</div>
 
 										<p
 											className="--f-small-regular mt-2 text-end"
-											style={{color: pri.main}}
-										>
+											style={{ color: pri.main }}>
 											Lihat Detail {">"}
 										</p>
 									</div>
