@@ -19,7 +19,8 @@ function LightBox({ open, onClose, children }) {
 				bottom: 0,
 				pointerEvents: open ? "auto" : "none",
 			}}
-			className="d-flex justify-content-center align-items-center p-3">
+			className="d-flex justify-content-center align-items-center p-3"
+		>
 			{/* Lightbox */}
 			<div
 				style={{
@@ -50,7 +51,8 @@ function Modal({ children, open, onClose, transparentBackground }) {
 					transition: "300ms",
 					maxWidth: 720 - 32,
 				}}
-				className="d-flex flex-column align-items-center justify-content-center p-3 w-100">
+				className="d-flex flex-column align-items-center justify-content-center p-3 w-100"
+			>
 				{children}
 			</div>
 		</LightBox>
@@ -71,7 +73,8 @@ export function ModalSuccessUpload({ open, onClose }) {
 
 			<p
 				className="--f-semismall-regular lh-base text-center mt-2"
-				style={{ color: gs.dark }}>
+				style={{ color: gs.dark }}
+			>
 				Foto struk dan barang anda telah berhasil diupload. Admin akan segera
 				melakukan validasi untuk ditukarkan dengan kesempatan{" "}
 				<GoShock className="--f-semismall-bold" />
@@ -108,7 +111,8 @@ export function ModalPhysicalPrize({ open, prizeName, onSend }) {
 
 			<p
 				className="--f-semismall-regular lh-base text-center mt-2"
-				style={{ color: gs.gray }}>
+				style={{ color: gs.gray }}
+			>
 				Isi formulir di bawah ini dengan alamat pengiriman hadiah Anda
 			</p>
 
@@ -124,8 +128,8 @@ export function ModalPhysicalPrize({ open, prizeName, onSend }) {
 				title="Kirim"
 				className="mt-3 w-100"
 				onClick={() => {
-					setAddress("");
 					onSend(address);
+					setAddress("");
 				}}
 				disabled={!address}
 			/>
@@ -134,7 +138,7 @@ export function ModalPhysicalPrize({ open, prizeName, onSend }) {
 }
 
 export function ModalDigitalPrize({ open, prizeName, onSend }) {
-	const [phoneNumber, setPhoneNumber] = useState(null);
+	const [phoneNumber, setPhoneNumber] = useState("");
 
 	return (
 		<Modal open={open} onClose={() => {}}>
@@ -154,17 +158,27 @@ export function ModalDigitalPrize({ open, prizeName, onSend }) {
 
 			<p
 				className="--f-semismall-regular lh-base text-center mt-2"
-				style={{ color: gs.gray }}>
+				style={{ color: gs.gray }}
+			>
 				Masukan nomor handphone Anda sebagai penerima hadiah
 			</p>
 
-			<Input onChange={(val) => setPhoneNumber(val)} className="w-100 mt-3" />
+			<Input
+				type="tel"
+				placeholder="Misal: 081234567890"
+				value={phoneNumber}
+				onChange={(val) => setPhoneNumber(val)}
+				className="w-100 mt-3"
+			/>
 
 			<Button
 				type="primary"
 				title="Kirim"
 				className="mt-3 w-100"
-				onClick={() => onSend()}
+				onClick={() => {
+					onSend(phoneNumber);
+					setPhoneNumber("");
+				}}
 			/>
 		</Modal>
 	);
@@ -210,7 +224,8 @@ export function ModalRedeemSuccess({ open, onClose, data }) {
 				/>
 				<p
 					className="--f-semismall-semibold ms-2"
-					style={{ color: danger.main }}>
+					style={{ color: danger.main }}
+				>
 					- {data?.points} points
 				</p>
 			</div>
@@ -231,7 +246,8 @@ export function ModalZoomInReceipt({ open, onClose, src }) {
 			<div
 				className="d-flex align-items-center gap-1"
 				onClick={onClose}
-				style={{ cursor: "pointer" }}>
+				style={{ cursor: "pointer" }}
+			>
 				<p className="--f-normal-regular" style={{ color: gs.white }}>
 					Tutup
 				</p>

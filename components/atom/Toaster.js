@@ -1,11 +1,11 @@
-import {animated, useSpring} from "@react-spring/web";
-import {useEffect} from "react";
-import {danger, gs} from "./Color";
+import { animated, useSpring } from "@react-spring/web";
+import { useEffect } from "react";
+import { danger, gs } from "./Color";
 
-export function ToasterBasic({title, show, onDismiss}) {
-	const {top} = useSpring({
+export function ToasterBasic({ title, show, onDismiss }) {
+	const { top } = useSpring({
 		top: show ? 16 : -80,
-		config: {mass: 8, tension: 800, friction: 80},
+		config: { mass: 8, tension: 800, friction: 80 },
 	});
 
 	useEffect(
@@ -20,7 +20,7 @@ export function ToasterBasic({title, show, onDismiss}) {
 				backgroundColor: danger.main,
 				borderRadius: 4,
 				position: "fixed",
-				zIndex: 99,
+				zIndex: 999,
 				top: top,
 				width: "calc(100% - 32px)",
 				maxWidth: 720 - 32,
@@ -34,7 +34,7 @@ export function ToasterBasic({title, show, onDismiss}) {
 					borderRadius: 100,
 				}}
 			/>
-			<p className="--f-normal-semibold" style={{color: gs.white}}>
+			<p className="--f-normal-semibold" style={{ color: gs.white }}>
 				{title}
 			</p>
 		</animated.div>
