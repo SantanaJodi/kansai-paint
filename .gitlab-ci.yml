@@ -13,10 +13,10 @@ before_script:
 build-http:
   stage: build-http
   only:
-    - main
+    - staging
   script:
     # Build and tag image for both GCR and Gitlab registries
-    - docker build -t gcr.io/$GCP_PROJECT_ID/$APP_NAME_KANSAI_GOSHOCK_MICROSITE:latest -t gcr.io/$GCP_PROJECT_ID/$APP_NAME_KANSAI_GOSHOCK_MICROSITE:$CI_PIPELINE_ID .
+    - docker build -t gcr.io/$GCP_PROJECT_ID/$APP_NAME_KANSAI_GOSHOCK_MICROSITE_STAGING:latest -t gcr.io/$GCP_PROJECT_ID/$APP_NAME_KANSAI_GOSHOCK_MICROSITE_STAGING:$CI_PIPELINE_ID .
     # Push image to GCR
-    - docker push gcr.io/$GCP_PROJECT_ID/$APP_NAME_KANSAI_GOSHOCK_MICROSITE:latest
-    - docker push gcr.io/$GCP_PROJECT_ID/$APP_NAME_KANSAI_GOSHOCK_MICROSITE:$CI_PIPELINE_ID
+    - docker push gcr.io/$GCP_PROJECT_ID/$APP_NAME_KANSAI_GOSHOCK_MICROSITE_STAGING:latest
+    - docker push gcr.io/$GCP_PROJECT_ID/$APP_NAME_KANSAI_GOSHOCK_MICROSITE_STAGING:$CI_PIPELINE_ID
