@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export default async function handler(req, res) {
-	const {authorization} = req.headers;
+	const { authorization } = req.headers;
 
 	var config = {
 		method: "get",
@@ -11,6 +11,12 @@ export default async function handler(req, res) {
 		},
 	};
 
-	const {data} = await axios(config);
-	res.send(data);
+	try {
+		const { data } = await axios(config);
+		res.status(200).send(data);
+		res.end();
+	} catch (err) {
+		res.status(403);
+		res.end();
+	}
 }

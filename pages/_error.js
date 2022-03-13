@@ -31,7 +31,7 @@ function ClientError() {
 	);
 }
 
-function Error({ statusCode }) {
+export function Error({ statusCode }) {
 	return (
 		<HtmlPage title={`Error ${statusCode}`} desc={`Error ${statusCode}`}>
 			{statusCode ? <ServerError errorStatus={statusCode} /> : <ClientError />}

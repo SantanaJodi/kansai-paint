@@ -10,7 +10,10 @@ import Icon, { GoShock } from "../../../../components/atom/Icon";
 import { LoadingLine } from "../../../../components/atom/Loading";
 import { ToasterBasic } from "../../../../components/atom/Toaster";
 import { BoxCouponCard } from "../../../../components/molecule/Box";
-import { FooterImage } from "../../../../components/molecule/Footer";
+import {
+	FooterGraphic,
+	FooterImage,
+} from "../../../../components/molecule/Footer";
 import { HeaderMainCustomer } from "../../../../components/molecule/Header";
 import {
 	ModalDigitalPrize,
@@ -18,6 +21,7 @@ import {
 } from "../../../../components/molecule/Modal";
 import { getData } from "../../../../lib/fetcher";
 import { handleTimestamp } from "../../../../lib/function";
+import Error from "../../../_error";
 
 export default function GoShockPage() {
 	const { push, query } = useRouter();
@@ -37,6 +41,7 @@ export default function GoShockPage() {
 		data: payload,
 		isValidating,
 		mutate,
+		error,
 	} = useSWR(["/api/rewards", token], getData);
 	const { data } = payload || {};
 
@@ -111,6 +116,20 @@ export default function GoShockPage() {
 				}
 			});
 	};
+
+	if (error)
+		return (
+			<HtmlPage title="Error 403" desc="Error 403">
+				<div className="d-flex flex-column justify-content-center align-items-center h-100">
+					<p style={{ fontSize: 50, color: pri.main, fontWeight: "bold" }}>
+						403
+					</p>
+					<p className="--f-normal-regular lh-base">Akses ditolak</p>
+				</div>
+
+				<FooterGraphic size="big" />
+			</HtmlPage>
+		);
 
 	return (
 		<HtmlPage

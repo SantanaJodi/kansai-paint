@@ -167,8 +167,10 @@ export function ModalDigitalPrize({ open, prizeName, onSend }) {
 				type="tel"
 				placeholder="Misal: 081234567890"
 				value={phoneNumber}
-				onChange={(val) => setPhoneNumber(val)}
+				onChange={(val) => setPhoneNumber(val.replace(/[^\d]/g, ""))}
 				className="w-100 mt-3"
+				pattern="[0-9]*"
+				inputMode="numeric"
 			/>
 
 			<Button
