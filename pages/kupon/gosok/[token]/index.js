@@ -85,7 +85,7 @@ export default function GoShockPage() {
 	const handleSendDigitalPrize = async (phoneNumber) => {
 		await axios
 			.post(
-				"api/claim",
+				"/api/claim",
 				{
 					reward: {
 						...prizeData,
