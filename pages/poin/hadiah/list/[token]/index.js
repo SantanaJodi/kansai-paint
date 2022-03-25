@@ -1,16 +1,22 @@
-import {useRouter} from "next/router";
-import {useContext} from "react";
-import {gs, pri, warning} from "../../../../components/atom/Color";
-import {Context} from "../../../../components/atom/Context";
-import {HtmlPage} from "../../../../components/atom/HtmlPage";
-import {FooterGraphic} from "../../../../components/molecule/Footer";
-import {HeaderChild} from "../../../../components/molecule/Header";
-import {handleTimestamp} from "../../../../lib/function";
+import { useRouter } from "next/router";
+import useSWR from "swr";
+import { gs, pri, warning } from "../../../../../components/atom/Color";
+import { HtmlPage } from "../../../../../components/atom/HtmlPage";
+import { FooterGraphic } from "../../../../../components/molecule/Footer";
+import { HeaderChild } from "../../../../../components/molecule/Header";
+import { getData } from "../../../../../lib/fetcher";
+import { handleTimestamp } from "../../../../../lib/function";
 
 export default function RedeemHistory() {
-	const {push, query} = useRouter();
-	const {token} = query;
-	const [{redeemHistory}] = useContext(Context);
+	const { push, query } = useRouter();
+	const { token } = query;
+
+	const { data: payLoad } = useSWR(
+		token ? ["/api/store/reward-history", token] : null,
+		getData
+	);
+	const { data } = payLoad || {};
+	const { reward_histories } = data || {};
 
 	return (
 		<HtmlPage
@@ -20,46 +26,41 @@ export default function RedeemHistory() {
 		>
 			<HeaderChild
 				title="Riwayat Tukar"
-				onBack={() => push("/tukar-hadiah/01")}
+				onBack={() => push(`/poin/hadiah/${token}`)}
 			/>
 
-			{!redeemHistory && (
+			{!reward_histories && (
 				<div
 					className="w-100 d-flex align-items-center justify-content-center"
-					style={{height: "calc(100% - 80px)"}}
+					style={{ height: "calc(100% - 80px)" }}
 				>
-					<p className="--f-normal-regular" style={{color: gs.white}}>
+					<p className="--f-normal-regular" style={{ color: gs.white }}>
 						Tidak ada riwayat tukar untuk ditampilkan
 					</p>
 				</div>
 			)}
 
-			{redeemHistory && (
+			{reward_histories && (
 				<ul className="m-3">
 					{/* HistoryCards */}
-					{redeemHistory
+					{reward_histories
 						.map((gift, key) => (
 							<li
 								key={key}
 								className="mb-3"
-								onClick={() =>
-									push(
-										`/tukar-hadiah/${token}/riwayat/${gift.id}`
-									)
-								}
+								onClick={() => push(`/poin/hadiah/list/${token}/${gift.id}`)}
 							>
 								<div
 									className="p-3 d-flex"
 									style={{
 										backgroundColor: pri.dark,
-										boxShadow:
-											"0px 0px 16px rgba(0, 0, 0, 0.3)",
+										boxShadow: "0px 0px 16px rgba(0, 0, 0, 0.3)",
 										borderRadius: 4,
 									}}
 								>
 									{/* Gift Image */}
 									<img
-										src={gift?.img}
+										src={gift?.image_link}
 										height={64}
 										width={64}
 										style={{
@@ -73,7 +74,7 @@ export default function RedeemHistory() {
 									<div className="ms-3 d-flex flex-column flex-fill justify-content-between">
 										<p
 											className="--f-normal-bold lh-base"
-											style={{color: gs.white}}
+											style={{ color: gs.white }}
 										>
 											{gift?.name}
 										</p>
@@ -81,13 +82,9 @@ export default function RedeemHistory() {
 										<div className="d-flex justify-content-between">
 											<p
 												className="--f-small-regular lh-base"
-												style={{color: gs.gray}}
+												style={{ color: gs.gray }}
 											>
-												{
-													handleTimestamp(
-														gift?.timestamp
-													).dateAndTime
-												}
+												{handleTimestamp(gift?.claim_time).dateAndTime}
 											</p>
 
 											<div className="d-flex align-items-center">
@@ -103,7 +100,7 @@ export default function RedeemHistory() {
 														color: warning.main,
 													}}
 												>
-													{gift?.points} points
+													{gift?.allocated_point} points
 												</p>
 											</div>
 										</div>
@@ -111,7 +108,7 @@ export default function RedeemHistory() {
 										<div className="d-flex justify-content-between">
 											<p
 												className="--f-small-regular lh-base"
-												style={{color: gs.gray}}
+												style={{ color: gs.gray }}
 											>
 												ID: {gift?.id}
 											</p>

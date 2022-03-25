@@ -1,19 +1,24 @@
-import {useRouter} from "next/router";
-import {useContext, useEffect, useState} from "react";
+import axios from "axios";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import useSWR from "swr";
 import Button from "../../../components/atom/Button";
-import {gs, pri, warning} from "../../../components/atom/Color";
-import {Context} from "../../../components/atom/Context";
-import {HtmlPage} from "../../../components/atom/HtmlPage";
+import { gs, pri, warning } from "../../../components/atom/Color";
+import { HtmlPage } from "../../../components/atom/HtmlPage";
 import Icon from "../../../components/atom/Icon";
-import {ToasterBasic} from "../../../components/atom/Toaster";
-import {BottomsheetConfirmRedeem} from "../../../components/molecule/Bottomsheet";
-import {FooterGraphic} from "../../../components/molecule/Footer";
-import {HeaderMainStore} from "../../../components/molecule/Header";
-import {ModalRedeemSuccess} from "../../../components/molecule/Modal";
+import { ToasterBasic } from "../../../components/atom/Toaster";
+import { BottomsheetConfirmRedeem } from "../../../components/molecule/Bottomsheet";
+import { FooterGraphic } from "../../../components/molecule/Footer";
+import { HeaderMainStore } from "../../../components/molecule/Header";
+import { ModalRedeemSuccess } from "../../../components/molecule/Modal";
+import { getData } from "../../../lib/fetcher";
+import Error from "../../_error";
 
 export default function TukarHadiah() {
-	const {push} = useRouter();
-	const [{userPoints, redeemHistory}, setState] = useContext(Context);
+	const { query } = useRouter();
+	const { token } = query;
+
+	const { push } = useRouter();
 
 	const [redeemConfirmation, setRedeemConfirmation] = useState(false);
 	const [redeemSuccess, setRedeemSuccess] = useState(false);
@@ -21,71 +26,48 @@ export default function TukarHadiah() {
 
 	const [redeemData, setRedeemData] = useState(null);
 
-	const dummyGiftDatabase = [
-		{
-			name: "Kipas Angin Cosmos Wadesta",
-			img: "https://images.unsplash.com/photo-1618941716939-553df3c6c278?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTN8fGZhbnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
-			points: 180,
-			id: "01",
-		},
-		{
-			name: "Aesthetic Chair",
-			img: "https://images.unsplash.com/photo-1622147681210-d7da05b4a7d7?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MzB8fGNoYWlyfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60",
-			points: 1000,
-			id: "02",
-		},
-		{
-			name: "Minimalist Door That’s Open",
-			img: "https://images.unsplash.com/photo-1481277542470-605612bd2d61?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1106&q=80",
-			points: 1200,
-			id: "03",
-		},
-		{
-			name: "Cool Lamp",
-			img: "https://images.unsplash.com/photo-1540932239986-30128078f3c5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTB8fGxhbXB8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60",
-			points: 500,
-			id: "04",
-		},
-	];
+	const {
+		data: payLoad,
+		mutate,
+		isValidating,
+		error,
+	} = useSWR(token ? ["/api/store/point-and-rewards", token] : null, getData);
+	const { data } = payLoad || {};
+	const { user, point, available_rewards } = data || {};
 
 	const handleRedeemConfirmation = (gift) => {
 		setRedeemData(gift);
 		setRedeemConfirmation(true);
 	};
 
-	const handleRedeem = () => {
+	const handleRedeem = async () => {
 		setRedeemSuccess(true);
 		setRedeemConfirmation(false);
 
-		const redeemList = redeemHistory || [];
-		redeemList.push({
-			...redeemData,
-			id: redeemList.length,
-			timestamp: Date.now(),
-			address:
-				"Jl. Perangai Jaya Alam Bina Nusantara no 94, RT 01 RW 02, Jakarta Utara, DKI Jakarta",
-		});
-
-		setState((prev) => ({
-			...prev,
-			userPoints: userPoints - redeemData?.points,
-			redeemHistory: redeemList,
-		}));
+		// API Contract
+		await axios.post(
+			"/api/store/redeem",
+			{
+				reward: {
+					id: redeemData?.id,
+				},
+			},
+			{
+				headers: {
+					Authorization: token,
+				},
+			}
+		);
 	};
 
-	useEffect(() => {
-		// Change with API
-		setState((prev) => ({
-			...prev,
-			userPoints: 990,
-		}));
-	}, [setState]);
+	if (error) return <Error statusCode={403} />;
 
 	return (
 		<HtmlPage
 			title="Tukar Poin Dengan Hadiah | Kansai Paint"
 			desc="Tukar poin yang sudah Anda kumpulkan dengan hadiah menarik dari Kansai Paint"
 			background={pri.dark}
+			loading={!data || isValidating}
 		>
 			{/* Toaster */}
 			<ToasterBasic
@@ -97,7 +79,11 @@ export default function TukarHadiah() {
 			{/* Modal */}
 			<ModalRedeemSuccess
 				open={redeemSuccess}
-				onClose={() => setRedeemSuccess(false)}
+				onClose={() => {
+					setRedeemSuccess(false);
+					setRedeemData(null);
+					mutate();
+				}}
 				data={redeemData}
 			/>
 
@@ -108,7 +94,10 @@ export default function TukarHadiah() {
 					setRedeemConfirmation(false);
 					setRedeemData(null);
 				}}
-				data={redeemData}
+				data={{
+					...redeemData,
+					userPoint: point?.available,
+				}}
 				onRedeem={handleRedeem}
 			/>
 
@@ -116,24 +105,20 @@ export default function TukarHadiah() {
 			<HeaderMainStore />
 
 			<section className="m-3">
-				<p
-					className="--f-normal-bold lh-base"
-					style={{color: pri.main}}
-				>
-					Toko Bangun Jaya Abadi
+				<p className="--f-normal-bold lh-base" style={{ color: pri.main }}>
+					{user?.name}
 				</p>
 				<p
 					className="--f-small-regular lh-base mt-2"
-					style={{color: gs.white}}
+					style={{ color: gs.white }}
 				>
-					Jl. Perangai Jaya Alam Bina Nusantara no 94, RT 01 RW 02,
-					Jakarta Utara, DKI Jakarta
+					{user?.address}
 				</p>
 			</section>
 
 			<section
 				className="p-3 d-flex justify-content-between align-items-center"
-				style={{backgroundColor: gs.black}}
+				style={{ backgroundColor: gs.black }}
 			>
 				<div className="d-flex align-items-center">
 					<img
@@ -144,21 +129,21 @@ export default function TukarHadiah() {
 					/>
 					<p
 						className="--f-semismall-semibold ms-2"
-						style={{color: warning.main}}
+						style={{ color: warning.main }}
 					>
-						{userPoints} points
+						{point?.available} points
 					</p>
 				</div>
 
 				<div
 					className="d-flex align-items-center"
-					style={{cursor: "pointer"}}
-					onClick={() => push("/tukar-hadiah/01/riwayat")}
+					style={{ cursor: "pointer" }}
+					onClick={() => push(`/poin/hadiah/list/${token}`)}
 				>
 					<Icon icon="box" fill={gs.white} size={16} />
 					<p
 						className="--f-semismall-semibold ms-2"
-						style={{textDecoration: "underline", color: gs.white}}
+						style={{ textDecoration: "underline", color: gs.white }}
 					>
 						Riwayat Tukar
 					</p>
@@ -166,47 +151,46 @@ export default function TukarHadiah() {
 			</section>
 
 			<section className="m-3">
-				<p className="--f-normal-bold" style={{color: gs.white}}>
+				<p className="--f-normal-bold" style={{ color: gs.white }}>
 					Hadiah Untuk Anda
 				</p>
 
 				<div className="row mt-3">
 					{/* Cards */}
-					{dummyGiftDatabase.map((gift, key) => (
-						<div key={key} className="col-6 col-md-3 p-2">
+					{available_rewards?.map((gift, key) => (
+						<div key={key} className="col-6 col-md-3 p-3">
 							<div
 								style={{
 									borderRadius: 4,
 									backgroundColor: pri.dark,
-									boxShadow:
-										"8px 8px 24px rgba(0, 0, 0, 0.4)",
+									boxShadow: "8px 8px 24px rgba(0, 0, 0, 0.4)",
 									overflow: "hidden",
 									cursor: "pointer",
 								}}
 								className="h-100"
 								onClick={() =>
-									userPoints > gift.points
+									point?.available > gift.point
 										? handleRedeemConfirmation(gift)
 										: setInsuficientPoint(true)
 								}
 							>
 								{/* Gift Image */}
 								<img
-									src={gift.img}
+									src={gift.image_link}
 									height={156}
 									width="100%"
-									style={{objectFit: "cover"}}
+									style={{ objectFit: "cover" }}
 									alt="Redeem Gift"
 								/>
 
 								{/* Gift Data */}
 								<div
 									className="d-flex flex-column justify-content-between"
-									style={{height: "calc(100% - 156px)"}}
+									style={{ height: "calc(100% - 156px)" }}
 								>
 									<p
 										className="--f-normal-bold m-2 lh-base"
-										style={{color: gs.white}}
+										style={{ color: gs.white }}
 									>
 										{gift.name}
 									</p>
@@ -221,9 +205,9 @@ export default function TukarHadiah() {
 											/>
 											<p
 												className="--f-semismall-semibold ms-2"
-												style={{color: warning.main}}
+												style={{ color: warning.main }}
 											>
-												{gift.points} points
+												{gift.point} points
 											</p>
 										</div>
 
@@ -232,16 +216,14 @@ export default function TukarHadiah() {
 											title="Tukar"
 											className="mt-3 w-100"
 											style={
-												userPoints < gift.points && {
+												point?.available < gift.point && {
 													background: gs.gray,
 												}
 											}
 											onClick={() =>
-												userPoints < gift.points
+												point?.available < gift.point
 													? setInsuficientPoint(true)
-													: handleRedeemConfirmation(
-															gift
-													  )
+													: handleRedeemConfirmation(gift)
 											}
 										/>
 									</div>

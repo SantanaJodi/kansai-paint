@@ -21,7 +21,6 @@ import {
 } from "../../../../components/molecule/Modal";
 import { getData } from "../../../../lib/fetcher";
 import { handleTimestamp } from "../../../../lib/function";
-import Error from "../../../_error";
 
 export default function GoShockPage() {
 	const { push, query } = useRouter();
@@ -47,16 +46,18 @@ export default function GoShockPage() {
 
 	const handleGetReward = async () => {
 		setIsGosokable(false);
+
 		const res = await axios.get("/api/scratch", {
 			headers: {
 				Authorization: token,
 			},
 		});
-
 		const {
 			data: { reward },
 		} = await res.data;
+
 		setPrizeData(reward);
+
 		reward?.type === "pg" ? setPhysicalPrize(true) : setDigitalPrize(true);
 
 		mutate();

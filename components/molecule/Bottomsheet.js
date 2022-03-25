@@ -1,22 +1,22 @@
 import axios from "axios";
-import {useRouter} from "next/router";
-import {useCallback, useContext, useState} from "react";
-import {BottomSheet} from "react-spring-bottom-sheet";
+import { useRouter } from "next/router";
+import { useCallback, useContext, useState } from "react";
+import { BottomSheet } from "react-spring-bottom-sheet";
 import "react-spring-bottom-sheet/dist/style.css";
 import Button from "../atom/Button";
-import {danger, gs, warning} from "../atom/Color";
-import {Context} from "../atom/Context";
-import {DividerLine} from "../atom/Divider";
-import {InputUploadPhoto} from "../atom/Input";
-import {BoxInfo} from "./Box";
-import {HeaderBottomsheet} from "./Header";
-import {ModalZoomInReceipt} from "./Modal";
+import { danger, gs, warning } from "../atom/Color";
+import { Context } from "../atom/Context";
+import { DividerLine } from "../atom/Divider";
+import { InputUploadPhoto } from "../atom/Input";
+import { BoxInfo } from "./Box";
+import { HeaderBottomsheet } from "./Header";
+import { ModalZoomInReceipt } from "./Modal";
 import FormData from "form-data";
-import {ToasterBasic} from "../atom/Toaster";
+import { ToasterBasic } from "../atom/Toaster";
 
-export function BottomsheetUploadReceiptAndItem({open, onDismiss}) {
-	const {push, query} = useRouter();
-	const {token} = query;
+export function BottomsheetUploadReceiptAndItem({ open, onDismiss }) {
+	const { push, query } = useRouter();
+	const { token } = query;
 
 	// Toaster
 	const [uploadError, setUploadError] = useState(false);
@@ -91,11 +91,8 @@ export function BottomsheetUploadReceiptAndItem({open, onDismiss}) {
 				<BottomSheet
 					open={open}
 					onDismiss={!isUploading && onDismiss}
-					snapPoints={({minHeight, maxHeight}) => [
-						minHeight,
-						maxHeight,
-					]}
-					defaultSnap={({lastSnap, snapPoints}) =>
+					snapPoints={({ minHeight, maxHeight }) => [minHeight, maxHeight]}
+					defaultSnap={({ lastSnap, snapPoints }) =>
 						lastSnap && Math.min(...snapPoints)
 					}
 					expandOnContentDrag={!isUploading}
@@ -108,7 +105,7 @@ export function BottomsheetUploadReceiptAndItem({open, onDismiss}) {
 					<div className="d-flex flex-column align-items-center justify-content-center">
 						<p
 							className="--f-semismall-semibold mt-3"
-							style={{color: gs.gray}}
+							style={{ color: gs.gray }}
 						>
 							Contoh Struk Yang Diterima
 						</p>
@@ -123,9 +120,7 @@ export function BottomsheetUploadReceiptAndItem({open, onDismiss}) {
 							}}
 							onClick={() => {
 								setZoomReceipt(true);
-								setReceiptExample(
-									"/image/pixel/bon_example.png"
-								);
+								setReceiptExample("/image/pixel/bon_example.png");
 							}}
 						/>
 					</div>
@@ -164,15 +159,13 @@ export function BottomsheetUploadReceiptAndItem({open, onDismiss}) {
 	);
 }
 
-export function BottomsheetConfirmRedeem({open, onDismiss, data, onRedeem}) {
-	const [{userPoints}] = useContext(Context);
-
+export function BottomsheetConfirmRedeem({ open, onDismiss, data, onRedeem }) {
 	return (
 		<BottomSheet
 			open={open}
 			onDismiss={onDismiss}
-			snapPoints={({minHeight, maxHeight}) => [minHeight, maxHeight]}
-			defaultSnap={({lastSnap, snapPoints}) =>
+			snapPoints={({ minHeight, maxHeight }) => [minHeight, maxHeight]}
+			defaultSnap={({ lastSnap, snapPoints }) =>
 				lastSnap && Math.min(...snapPoints)
 			}
 			expandOnContentDrag
@@ -184,20 +177,16 @@ export function BottomsheetConfirmRedeem({open, onDismiss, data, onRedeem}) {
 			/>
 
 			<section className="m-3">
-				<p
-					className="--f-semismall-regular lh-base"
-					style={{color: gs.gray}}
-				>
-					Anda akan melakukan redeem untuk hadiah dengan detail
-					berikut ini
+				<p className="--f-semismall-regular lh-base" style={{ color: gs.gray }}>
+					Anda akan melakukan redeem untuk hadiah dengan detail berikut ini
 				</p>
 
 				<div className="mt-3 d-flex align-items-center">
 					<img
-						src={data?.img}
+						src={data?.image_link}
 						height={80}
 						width={80}
-						style={{objectFit: "cover", borderRadius: 8}}
+						style={{ objectFit: "cover", borderRadius: 8 }}
 						alt="Redeem Gift"
 					/>
 
@@ -213,9 +202,9 @@ export function BottomsheetConfirmRedeem({open, onDismiss, data, onRedeem}) {
 							/>
 							<p
 								className="--f-semismall-semibold ms-2 lh-base"
-								style={{color: warning.main}}
+								style={{ color: warning.main }}
 							>
-								{data?.points} points
+								{data?.point} points
 							</p>
 						</div>
 					</div>
@@ -223,10 +212,7 @@ export function BottomsheetConfirmRedeem({open, onDismiss, data, onRedeem}) {
 
 				<div className="mt-3">
 					<div className="d-flex justify-content-between">
-						<p
-							className="--f-semismall-semibold"
-							style={{color: gs.gray}}
-						>
+						<p className="--f-semismall-semibold" style={{ color: gs.gray }}>
 							Rincian
 						</p>
 
@@ -240,17 +226,17 @@ export function BottomsheetConfirmRedeem({open, onDismiss, data, onRedeem}) {
 								/>
 								<p
 									className="--f-semismall-semibold ms-2 lh-base"
-									style={{color: gs.black}}
+									style={{ color: gs.black }}
 								>
-									{userPoints} points
+									{data?.userPoint} points
 								</p>
 							</div>
 
 							<p
 								className="--f-semismall-semibold ms-2 lh-base text-end"
-								style={{color: danger.main}}
+								style={{ color: danger.main }}
 							>
-								- {data?.points} points
+								- {data?.point} points
 							</p>
 						</div>
 					</div>
@@ -258,17 +244,14 @@ export function BottomsheetConfirmRedeem({open, onDismiss, data, onRedeem}) {
 					<DividerLine className="my-3" lineColor={gs.gray} />
 
 					<div className="d-flex justify-content-between">
-						<p
-							className="--f-semismall-semibold"
-							style={{color: gs.gray}}
-						>
+						<p className="--f-semismall-semibold" style={{ color: gs.gray }}>
 							Sisa points Anda
 						</p>
 						<p
 							className="--f-semismall-semibold ms-2 lh-base"
-							style={{color: warning.main}}
+							style={{ color: warning.main }}
 						>
-							{userPoints - data?.points} points
+							{data?.userPoint - data?.point} points
 						</p>
 					</div>
 				</div>
@@ -277,7 +260,7 @@ export function BottomsheetConfirmRedeem({open, onDismiss, data, onRedeem}) {
 					type="primary"
 					title="Tukar"
 					className="mt-3 w-100"
-					onClick={onRedeem}
+					onClick={() => onRedeem(data)}
 				/>
 			</section>
 		</BottomSheet>
