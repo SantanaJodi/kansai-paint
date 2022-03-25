@@ -4,14 +4,15 @@ services:
   - docker:dind
 
 stages:
-  - build-http
+  - build-http-staging
+  - build-http-production
 
 before_script:
   # Login to Google Container Registry
   - base64 -d $GCP_SA_KEY | docker login -u _json_key --password-stdin https://gcr.io
 
-build-http:
-  stage: build-http
+build-http-staging:
+  stage: build-http-staging
   only:
     - staging
   script:
@@ -20,3 +21,15 @@ build-http:
     # Push image to GCR
     - docker push gcr.io/$GCP_PROJECT_ID/$APP_NAME_KANSAI_GOSHOCK_MICROSITE_STAGING:latest
     - docker push gcr.io/$GCP_PROJECT_ID/$APP_NAME_KANSAI_GOSHOCK_MICROSITE_STAGING:$CI_PIPELINE_ID
+
+build-http-production:
+  stage: build-http-production
+  only:
+    - main
+  script:
+    # Build and tag image for both GCR and Gitlab registries
+    - docker build -t gcr.io/$GCP_PROJECT_ID/$APP_NAME_KANSAI_GOSHOCK_MICROSITE:latest -t gcr.io/$GCP_PROJECT_ID/$APP_NAME_KANSAI_GOSHOCK_MICROSITE:$CI_PIPELINE_ID .
+    # Push image to GCR
+    - docker push gcr.io/$GCP_PROJECT_ID/$APP_NAME_KANSAI_GOSHOCK_MICROSITE:latest
+    - docker push gcr.io/$GCP_PROJECT_ID/$APP_NAME_KANSAI_GOSHOCK_MICROSITE:$CI_PIPELINE_ID
+
