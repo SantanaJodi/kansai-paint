@@ -1,9 +1,7 @@
 import { useRouter } from "next/router";
-import { useContext } from "react";
 import useSWR from "swr";
 import { ButtonHelp } from "../../../../../components/atom/Button";
 import { gs, pri, warning } from "../../../../../components/atom/Color";
-import { Context } from "../../../../../components/atom/Context";
 import { HtmlPage } from "../../../../../components/atom/HtmlPage";
 import { FooterGraphic } from "../../../../../components/molecule/Footer";
 import { HeaderChild } from "../../../../../components/molecule/Header";
@@ -19,10 +17,7 @@ export default function GiftDetail() {
 		getData
 	);
 	const { data } = payLoad || {};
-	const { user, reward } = data || {};
-
-	console.log(user);
-	console.log(reward);
+	const { reward } = data || {};
 
 	return (
 		<HtmlPage
@@ -77,10 +72,10 @@ export default function GiftDetail() {
 
 			<div className="m-3">
 				<p className="--f-semismall-regular lh-base" style={{ color: gs.gray }}>
-					Hadiah ini dikirimkan ke alamat
+					Hadiah ini dikirimkan ke
 				</p>
 				<p className="--f-normal-bold lh-base mt-1" style={{ color: gs.white }}>
-					{reward?.address} Belum ada alamat di API
+					{reward?.send_to}
 				</p>
 				<p
 					className="--f-semismall-regular lh-base mt-1"
